@@ -1,0 +1,25 @@
+<div [formGroup]="form">
+  <div [ngSwitch]="field.fieldType.typeKind">
+
+    <md-input-container *ngSwitchCase="'PRIMITIVE'">
+      <input mdInput
+             [required]="field.required ? 'required' : null"
+             [formControlName]="field.fieldName"
+             [id]="field.fieldName"
+             [type]="field.fieldType.primitiveEntityType"
+             [placeholder]="field.label">
+
+    </md-input-container>
+
+    <select *ngSwitchCase="'ENTITY'"
+            [formControlName]="field.fieldName"
+            [id]="field.fieldName">
+
+      <option *ngFor="let food of foods">
+        {{ food.viewValue }}
+      </option>
+
+    </select>
+
+  </div>
+</div>

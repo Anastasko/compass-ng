@@ -1,0 +1,21 @@
+<div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+        <md-card>
+            <h3> {{title}} </h3>
+            <div *ngFor="let field of fields"
+                 class="form-row">
+                <df-field
+                        [field]="field"
+                        [form]="form">
+                </df-field>
+            </div>
+            <button md-raised-button
+                    color="primary"
+                    type="submit"
+                    [disabled]="!form.valid">Save</button>
+        </md-card>
+    </form>
+    <div *ngIf="payLoad" class="form-row">
+        <strong>Saved the following values</strong><br>{{payLoad}}
+    </div>
+</div>

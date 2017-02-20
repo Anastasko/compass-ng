@@ -1,0 +1,26 @@
+<section [hidden]="showForm">
+    <md-toolbar>
+        <button md-raised-button color="accent"
+                (click)='add()'>
+            Add
+        </button>
+    </md-toolbar>
+    <div *ngFor="let map of maps; let i=index">
+        Поверх {{map.floor}} <br/>
+        <button md-raised-button color="primary"
+                (click)='open(map)'>
+            Open
+        </button>
+        <button md-raised-button color="primary"
+                (click)='update(map)'>
+            Update
+        </button>
+        <!--<button md-raised-button color="warn"-->
+        <!--(click)='delete(map, i)'>-->
+        <!--Delete-->
+        <!--</button>-->
+
+    </div>
+</section>
+
+<dynamic-form #mapForm [service]="mapService" [hidden]="!showForm"></dynamic-form>

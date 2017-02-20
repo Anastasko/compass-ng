@@ -1,0 +1,18 @@
+
+
+  <div [hidden]="isLogin">
+    <md-toolbar color="primary">
+        <span class="right">
+          <button md-button
+                  *ngFor="let route of ROUTES_NAV" [routerLink]="[route.path]">
+            {{route.name}}
+          </button>
+        </span>
+    </md-toolbar>
+  </div>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer></footer>
