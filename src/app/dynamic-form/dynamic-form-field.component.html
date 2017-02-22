@@ -11,15 +11,21 @@
 
     </md-input-container>
 
-    <select *ngSwitchCase="'ENTITY'"
-            [formControlName]="field.fieldName"
-            [id]="field.fieldName">
+    <div *ngSwitchCase="'ENTITY'">
 
-      <option *ngFor="let food of foods">
-        {{ food.viewValue }}
-      </option>
+      <md-select
+        [placeholder]="field.label"
+        [formControlName]="field.fieldName"
+        [id]="field.fieldName">
+        <md-option *ngFor="let food of entities"
+                   [value]="{id: food.id}">
+          {{food.name }}
+        </md-option>
+      </md-select>
 
-    </select>
+    </div>
+
+
 
   </div>
 </div>
