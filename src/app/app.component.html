@@ -8,6 +8,11 @@
             {{route.name}}
           </button>
         </span>
+        <span [hidden]="!authService.loggedIn()">
+          <button md-button (click)="authService.logout()">
+            Logout
+          </button>
+        </span>
     </md-toolbar>
   </div>
 

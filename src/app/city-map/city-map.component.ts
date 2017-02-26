@@ -9,10 +9,11 @@ declare var google: any;
 
 @Component({
     selector: 'city-map',
-    template: ` <div [hidden]="showForm" id="map"></div>
+    template: ` <div [style.visibility]="!this.showForm ? 'hidden' : 'visible' " id="map"></div>
                 <dynamic-form #cityItemForm
-                   [hidden]="!showForm"
-                   [service]="_cityItemService">
+                   [style.visibility]="!this.showForm ? 'hidden' : 'visible' "
+                   [service]="_cityItemService"
+                   [callback]="callback">
                 </dynamic-form>
                 
               `,
@@ -25,7 +26,7 @@ declare var google: any;
 })
 export class CityMapComponent implements OnInit {
 
-    showForm: boolean = !true;
+    showForm: boolean = true;
     map: any; // google map
     infoWindow: InfoWindow;
     geoCoder: GeoCoder;
@@ -44,6 +45,10 @@ export class CityMapComponent implements OnInit {
     edit(item: CityItem){
         this.showForm = true;
         this.cityItemForm.render(item);
+    }
+
+    callback(item: CityItem){
+      this.showForm = false;
     }
 
     ngOnInit() {

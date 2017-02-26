@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ROUTES_NAV} from './app.routes';
 import {Router} from "@angular/router";
 import {AuthGuard} from "./_guards/auth-guard.service";
+import {AuthService} from "./_guards/auth.service";
 
 @Component({
   selector: 'compass-app',
@@ -14,7 +15,8 @@ export class AppComponent implements OnInit {
 
   isLogin: boolean = true;
 
-  constructor(private _router: Router) {
+  constructor(private _router: Router,
+              private authService : AuthService) {
 
   }
 

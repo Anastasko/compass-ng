@@ -4,29 +4,30 @@
      fxLayoutAlign="center center"
      fxLayoutGap="10px"
      fxLayoutGap.xs="0">
-    <div class="item" fxFlex="240px">
+  <div class="item" fxFlex="240px">
 
-        <md-card>
-            <div class="md-block">
-                <input
-                        [(ngModel)]="model.username"
-                        placeholder="username"
-                        required
-                        autofocus />
-            </div>
+    <md-card>
+      <md-input-container>
+        <input mdInput
+               [(ngModel)]="model.username"
+               placeholder="username"
+               required
+               autofocus/>
+      </md-input-container>
 
-            <div class="md-block">
-                <input
-                        [(ngModel)]="model.password"
-                        placeholder="password"
-                        type="password"
-                        required />
-            </div>
-            <button md-raised-button color="primary"
-                    (click)="onSubmit()">Login
-            </button>
+      <md-input-container>
+        <input mdInput
+               [(ngModel)]="model.password"
+               placeholder="password"
+               type="password"
+               required/>
+      </md-input-container>
 
-        </md-card>
+      <button md-raised-button color="primary"
+              (click)="onSubmit()">Login
+      </button>
 
-    </div>
+    </md-card>
+
+  </div>
 </div>
