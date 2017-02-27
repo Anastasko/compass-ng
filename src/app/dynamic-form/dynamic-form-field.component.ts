@@ -18,7 +18,7 @@ export class DynamicFormFieldComponent implements OnInit {
   ngOnInit(): void {
     if (this.field.fieldType.typeKind == 'ENTITY') {
       this.getFieldService().findAll().then(data => {
-        console.log(data);
+        // console.log(data);
         this.entities = data;
       })
     }

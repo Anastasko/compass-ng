@@ -1,21 +1,21 @@
 import {Component, OnInit, NgZone, ViewChild} from '@angular/core';
-import {InfoWindow} from './info-window';
 import {GeoCoder} from './geo-coder';
 import {CityItem} from '../api/model/city-item';
 import {CityItemService} from '../api/service/city-item.service';
 import {Observable} from "rxjs";
+import {InfoWindowComponent} from "./info-window/info-window.component";
 
 declare var google: any;
 
 @Component({
     selector: 'city-map',
-    template: ` <div [style.visibility]="!this.showForm ? 'hidden' : 'visible' " id="map"></div>
+    template: ` <div [hidden]="showForm" id="map"></div>
+                <info-window (edit)="edit($event)" [map]="map"></info-window>
                 <dynamic-form #cityItemForm
-                   [style.visibility]="!this.showForm ? 'hidden' : 'visible' "
+                   [hidden]="!showForm"
                    [service]="_cityItemService"
-                   [callback]="callback">
+                   (callback)="callback()">
                 </dynamic-form>
-                
               `,
     styles: [
         '#map { height: calc(100vh - 84px) }'
@@ -26,17 +26,15 @@ declare var google: any;
 })
 export class CityMapComponent implements OnInit {
 
-    showForm: boolean = true;
+    showForm: boolean = false;
     map: any; // google map
-    infoWindow: InfoWindow;
     geoCoder: GeoCoder;
-    current: any = {
-        model: new CityItem({})
-    };
+
     private editObservable: Observable<CityItem>;
     private obs : any;
 
     @ViewChild('cityItemForm') cityItemForm : any;
+    @ViewChild(InfoWindowComponent) infoWindow : InfoWindowComponent;
 
     constructor(private _cityItemService: CityItemService,
                 private _zone: NgZone) {
@@ -49,6 +47,7 @@ export class CityMapComponent implements OnInit {
 
     callback(item: CityItem){
       this.showForm = false;
+      this.infoWindow.render();
     }
 
     ngOnInit() {
@@ -58,7 +57,6 @@ export class CityMapComponent implements OnInit {
         this.editObservable.subscribe((item : CityItem) => {
             this.edit(item);
         });
-
         Promise.resolve().then(() => {
             let that = this;
             let lviv = {
@@ -69,9 +67,6 @@ export class CityMapComponent implements OnInit {
                 center: lviv,
                 zoom: 15,
                 disableDoubleClickZoom: true
-            });
-            this.infoWindow = new InfoWindow({
-                map: this.map
             });
             this.geoCoder = new GeoCoder();
 
@@ -87,7 +82,6 @@ export class CityMapComponent implements OnInit {
                 };
                 let marker = that.placeMarker(cityItem);
                 that._zone.run(() => {
-                    that.current.model = marker.cityItem;
 
                 });
             });
@@ -120,11 +114,6 @@ export class CityMapComponent implements OnInit {
 
         google.maps.event.addListener(marker, 'click', () => {
             this.infoWindow.show(marker);
-            // });
-            // google.maps.event.addListener(marker, 'dblclick', () => {
-            that._zone.run(() => {
-                that.obs.next(marker.cityItem);
-            });
         });
         google.maps.event.addListener(marker, 'dragstart', () => {
             that.infoWindow.hide();

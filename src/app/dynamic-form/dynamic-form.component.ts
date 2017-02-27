@@ -1,4 +1,4 @@
-import {Component, Input, OnInit}  from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter}  from '@angular/core';
 import {FormGroup}                 from '@angular/forms';
 import {QuestionControlService}    from './field-control.service';
 import {Service} from "../common/service.service";
@@ -19,28 +19,35 @@ export class DynamicFormComponent implements OnInit {
   fields: FieldViewModel[] = [];
 
   @Input() service: Service<any>;
-  @Input() callback: Function;
+  @Output() callback: EventEmitter<any> = new EventEmitter();
 
   form: FormGroup;
-  id: string;
+  item: any;
 
   constructor(private qcs: QuestionControlService) {
   }
 
   render(item: any) {
-    this.id = item.id;
+    this.item = item;
     this.form.reset(item);
   }
 
   onSubmit() {
-    if (this.id) {
-      this.form.value.id = this.id;
+    if (this.item.id) {
+      this.form.value.id = this.item.id;
       this.service.update(this.form.value).then(() => {
-        this.callback(this.service.findOne(this.id));
+        this.service.findOne(this.item.id).then(upd => {
+          this.service.merge(this.item, upd);
+          this.callback.emit(null);
+        });
       });
     } else {
       this.service.create(this.form.value).then((r) => {
-        this.callback(this.service.findOne(r.json().id));
+        this.service.findOne(r.json().id).then(created => {
+          this.item.id = created.id;
+          this.service.merge(this.item, created);
+          this.callback.emit(null);
+        });
       });
     }
   }

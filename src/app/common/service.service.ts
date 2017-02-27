@@ -53,4 +53,11 @@ export abstract class Service<T extends Entity> {
         return [];
     }
 
+    merge(item: T, newItem: T) {
+      this.getFields().forEach(f => {
+        item[f.fieldName] = newItem[f.fieldName];
+      });
+    }
+
+
 }

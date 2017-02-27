@@ -13,13 +13,13 @@
 
     <div *ngSwitchCase="'ENTITY'">
 
-      <md-select
+      <md-select *ngIf="field.fieldKind != 'COLLECTION'"
         [placeholder]="field.label"
         [formControlName]="field.fieldName"
         [id]="field.fieldName">
-        <md-option *ngFor="let food of entities"
-                   [value]="{id: food.id}">
-          {{food.name }}
+        <md-option *ngFor="let entity of entities"
+                   [value]="{id: entity.id}">
+          {{entity.name }}
         </md-option>
       </md-select>
 

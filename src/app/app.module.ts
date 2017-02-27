@@ -27,6 +27,7 @@ import {RootService} from './api/service/root.service'
 import {CityItemService} from './api/service/city-item.service'
 import {MapService} from './api/service/map.service'
 import {ServiceFactory} from "./api/service-factory.service";
+import { InfoWindowComponent } from './city-map/info-window/info-window.component';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import {ServiceFactory} from "./api/service-factory.service";
     MapsComponent,
     MapEditComponent,
     DynamicFormComponent,
-    DynamicFormFieldComponent
+    DynamicFormFieldComponent,
+    InfoWindowComponent
   ],
   bootstrap: [AppComponent],
   providers: [AuthGuard, AuthService,
