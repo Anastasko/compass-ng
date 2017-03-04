@@ -1,13 +1,13 @@
 
 import { Injectable } from '@angular/core';
-import { ItemKind } from '../model/item-kind';
+import { EntityItemKind } from '../model/entity-item-kind';
 import { Service } from "../../common/service.service";
 
 @Injectable()
-export class ItemKindService extends Service<ItemKind> {
+export class ItemKindService extends Service<EntityItemKind> {
     
-    getInstance(o: any): ItemKind {
-        return new ItemKind(o);
+    getInstance(o: any): EntityItemKind {
+        return new EntityItemKind(o);
     }
 
     prefix() {

@@ -1,13 +1,13 @@
 
 import { Injectable } from '@angular/core';
-import { Root } from '../model/root';
+import { EntityRoot } from '../model/entity-root';
 import { Service } from "../../common/service.service";
 
 @Injectable()
-export class RootService extends Service<Root> {
+export class RootService extends Service<EntityRoot> {
     
-    getInstance(o: any): Root {
-        return new Root(o);
+    getInstance(o: any): EntityRoot {
+        return new EntityRoot(o);
     }
 
     prefix() {

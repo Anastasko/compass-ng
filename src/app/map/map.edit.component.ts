@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, OnDestroy} from '@angular/core';
 import {MapService} from '../api/service/map.service';
-import {Map} from  '../api/model/map';
+import {EntityMap} from  '../api/model/entity-map';
 import {Routes, ActivatedRoute} from '@angular/router';
 import {Http, Response} from '@angular/http';
 import * as d3 from 'd3';
@@ -17,7 +17,7 @@ import {config} from "../config";
 export class MapEditComponent implements OnInit, OnDestroy {
 
     @Input()
-    map: Map;
+    map: EntityMap;
 
     status: string = "Loading ...";
 

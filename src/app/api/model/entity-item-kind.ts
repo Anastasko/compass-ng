@@ -1,7 +1,7 @@
 import { Entity } from "../../common/model/entity";
 import { UrlResource } from "../../common/model/url-resource";
 
-export class ItemKind extends Entity {
+export class EntityItemKind extends Entity {
 
     name: string;
     iosIcon: Entity;

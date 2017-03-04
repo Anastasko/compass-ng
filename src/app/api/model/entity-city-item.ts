@@ -1,7 +1,7 @@
 import { Entity } from "../../common/model/entity";
 import { UrlResource } from "../../common/model/url-resource";
 
-export class CityItem extends Entity {
+export class EntityCityItem extends Entity {
 
     name: string;
     longitude: number;

@@ -12,7 +12,7 @@ class TypeModel {
         let code = `import { Entity } from "../../common/model/entity";
 import { UrlResource } from "../../common/model/url-resource";
 
-export class ${this.type.typeName} extends Entity {
+export class Entity${this.type.typeName} extends Entity {
 
 ${this.createFields()}
 ${this.createConstructor()}
@@ -67,7 +67,7 @@ ${this.createConstructor()}
     }
 
     fileName() {
-        return `/${utils.dashedName(this.type.typeName)}.ts`;
+        return `/${utils.dashedName('Entity' + this.type.typeName)}.ts`;
     }
 
 }

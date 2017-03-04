@@ -1,6 +1,6 @@
 export class Entity {
 
-    id?: string;
+    id?: number;
 
     constructor(options: any){
         if (!options){

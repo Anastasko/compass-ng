@@ -1,13 +1,13 @@
 
 import { Injectable } from '@angular/core';
-import { AndroidIcon } from '../model/android-icon';
+import { EntityAndroidIcon } from '../model/entity-android-icon';
 import { Service } from "../../common/service.service";
 
 @Injectable()
-export class AndroidIconService extends Service<AndroidIcon> {
+export class AndroidIconService extends Service<EntityAndroidIcon> {
     
-    getInstance(o: any): AndroidIcon {
-        return new AndroidIcon(o);
+    getInstance(o: any): EntityAndroidIcon {
+        return new EntityAndroidIcon(o);
     }
 
     prefix() {

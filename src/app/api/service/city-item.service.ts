@@ -1,13 +1,13 @@
 
 import { Injectable } from '@angular/core';
-import { CityItem } from '../model/city-item';
+import { EntityCityItem } from '../model/entity-city-item';
 import { Service } from "../../common/service.service";
 
 @Injectable()
-export class CityItemService extends Service<CityItem> {
+export class CityItemService extends Service<EntityCityItem> {
     
-    getInstance(o: any): CityItem {
-        return new CityItem(o);
+    getInstance(o: any): EntityCityItem {
+        return new EntityCityItem(o);
     }
 
     prefix() {

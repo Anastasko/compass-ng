@@ -1,13 +1,13 @@
 
 import { Injectable } from '@angular/core';
-import { Map } from '../model/map';
+import { EntityMap } from '../model/entity-map';
 import { Service } from "../../common/service.service";
 
 @Injectable()
-export class MapService extends Service<Map> {
+export class MapService extends Service<EntityMap> {
     
-    getInstance(o: any): Map {
-        return new Map(o);
+    getInstance(o: any): EntityMap {
+        return new EntityMap(o);
     }
 
     prefix() {

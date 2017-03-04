@@ -1,15 +1,13 @@
 import { Entity } from "../../common/model/entity";
 import { UrlResource } from "../../common/model/url-resource";
 
-export class IosIcon extends Entity {
+export class EntityRoot extends Entity {
 
-    size2x: UrlResource;
-    size3x: UrlResource;
+    cityItems: Entity;
 
     constructor(options: any){
         super(options);
-        this.size2x = options.size2x;
-        this.size3x = options.size3x;
+        this.cityItems = new Entity(options.cityItems);
     }
 
 }

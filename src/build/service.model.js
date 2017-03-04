@@ -10,14 +10,14 @@ class ServiceModel {
     render() {
         let code = `
 import { Injectable } from '@angular/core';
-import { ${this.type.typeName} } from '../model/${utils.dashedName(this.type.typeName)}';
+import { Entity${this.type.typeName} } from '../model/${utils.dashedName('Entity' + this.type.typeName)}';
 import { Service } from "../../common/service.service";
 
 @Injectable()
-export class ${this.type.typeName}Service extends Service<${this.type.typeName}> {
+export class ${this.type.typeName}Service extends Service<Entity${this.type.typeName}> {
     
-    getInstance(o: any): ${this.type.typeName} {
-        return new ${this.type.typeName}(o);
+    getInstance(o: any): Entity${this.type.typeName} {
+        return new Entity${this.type.typeName}(o);
     }
 
     prefix() {

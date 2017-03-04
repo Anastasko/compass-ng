@@ -1,7 +1,7 @@
 import { Entity } from "../../common/model/entity";
 import { UrlResource } from "../../common/model/url-resource";
 
-export class AndroidIcon extends Entity {
+export class EntityAndroidIcon extends Entity {
 
     xxxhdpi: UrlResource;
     xxhdpi: UrlResource;
