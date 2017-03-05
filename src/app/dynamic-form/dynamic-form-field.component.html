@@ -17,8 +17,8 @@
         [formControlName]="field.fieldName"
         [id]="field.fieldName">
         <md-option *ngFor="let entity of entities"
-                   [value]="{id: entity.id}">
-          {{entity.name }}
+                   [value]="entity">
+          {{entity.name}}
         </md-option>
       </md-select>
 

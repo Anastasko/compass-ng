@@ -12,6 +12,7 @@ import {UrlResourceService} from "../common/service/url-resource.service";
 export class DynamicFormFieldComponent implements OnInit {
 
   private entities : any[] = [];
+  private selected : any;
 
   @Input() field: FieldViewModel;
   @Input() form: FormGroup;
@@ -20,11 +21,11 @@ export class DynamicFormFieldComponent implements OnInit {
     if (this.field.fieldType.typeKind == 'ENTITY') {
       this.getFieldService().findAll().then(data => {
         this.entities = data;
-      })
+      });
     } else if (this.field.fieldType.primitiveEntityType == 'URL_RESOURCE'){
       this.urlResourceService.findAll().then(data => {
         this.entities = data;
-      })
+      });
     }
   }
 
@@ -40,4 +41,21 @@ export class DynamicFormFieldComponent implements OnInit {
     return this.serviceFactory.getService(this.field.fieldType.id);
   }
 
+  enhance(item: any) {
+    if (this.field.fieldType.typeKind === 'ENTITY'){
+      item[this.field.fieldName] = this.findEntity(item[this.field.fieldName]);
+    }
+  }
+
+  private findEntity(field: any) {
+    if (field == null){
+      return null;
+    }
+    for(let entity of this.entities){
+      if (entity.id === field.id){
+        console.log(entity);
+        return entity;
+      }
+    }
+  }
 }
