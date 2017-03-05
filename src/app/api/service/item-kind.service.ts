@@ -1,7 +1,8 @@
 
+import { config } from '../../config';
 import { Injectable } from '@angular/core';
 import { EntityItemKind } from '../model/entity-item-kind';
-import { Service } from "../../common/service.service";
+import { Service } from "../../common/service/service.service";
 
 @Injectable()
 export class ItemKindService extends Service<EntityItemKind> {
@@ -13,7 +14,7 @@ export class ItemKindService extends Service<EntityItemKind> {
     prefix() {
         return '/itemKind';
     }
-    
+
     getFields(): any[] {
         return [
   {

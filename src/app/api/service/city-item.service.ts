@@ -1,7 +1,8 @@
 
+import { config } from '../../config';
 import { Injectable } from '@angular/core';
 import { EntityCityItem } from '../model/entity-city-item';
-import { Service } from "../../common/service.service";
+import { Service } from "../../common/service/service.service";
 
 @Injectable()
 export class CityItemService extends Service<EntityCityItem> {
@@ -13,7 +14,11 @@ export class CityItemService extends Service<EntityCityItem> {
     prefix() {
         return '/cityItem';
     }
-    
+
+    findMapsOf(owner: EntityCityItem){
+        return this.getRequest('/' + owner.id + '/maps');
+    }
+
     getFields(): any[] {
         return [
   {

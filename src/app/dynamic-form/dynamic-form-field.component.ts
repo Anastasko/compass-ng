@@ -2,7 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup}        from '@angular/forms';
 import {FieldViewModel} from "../common/model/field-view-model";
 import {ServiceFactory} from "../api/service-factory.service";
-import {Service} from "../common/service.service";
+import {Service} from "../common/service/service.service";
+import {UrlResourceService} from "../common/service/url-resource.service";
 
 @Component({
   selector: 'df-field',
@@ -18,13 +19,17 @@ export class DynamicFormFieldComponent implements OnInit {
   ngOnInit(): void {
     if (this.field.fieldType.typeKind == 'ENTITY') {
       this.getFieldService().findAll().then(data => {
-        // console.log(data);
+        this.entities = data;
+      })
+    } else if (this.field.fieldType.primitiveEntityType == 'URL_RESOURCE'){
+      this.urlResourceService.findAll().then(data => {
         this.entities = data;
       })
     }
   }
 
-  constructor(private serviceFactory: ServiceFactory) {
+  constructor(private serviceFactory: ServiceFactory,
+              private urlResourceService: UrlResourceService) {
   }
 
   get isValid() {

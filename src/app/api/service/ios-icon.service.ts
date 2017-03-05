@@ -1,7 +1,8 @@
 
+import { config } from '../../config';
 import { Injectable } from '@angular/core';
 import { EntityIosIcon } from '../model/entity-ios-icon';
-import { Service } from "../../common/service.service";
+import { Service } from "../../common/service/service.service";
 
 @Injectable()
 export class IosIconService extends Service<EntityIosIcon> {
@@ -13,7 +14,7 @@ export class IosIconService extends Service<EntityIosIcon> {
     prefix() {
         return '/iosIcon';
     }
-    
+
     getFields(): any[] {
         return [
   {

@@ -9,7 +9,7 @@ class ServiceFactoryModel {
 
     render() {
         let code = `import { Injectable } from '@angular/core';
-import {Service} from "../common/service.service";
+import {Service} from "../common/service/service.service";
 ${this.createImports()}
 @Injectable()
 export class ServiceFactory {

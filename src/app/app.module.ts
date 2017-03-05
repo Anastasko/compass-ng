@@ -28,6 +28,7 @@ import {CityItemService} from './api/service/city-item.service'
 import {MapService} from './api/service/map.service'
 import {ServiceFactory} from "./api/service-factory.service";
 import { InfoWindowComponent } from './city-map/info-window/info-window.component';
+import { UrlResourceService } from "./common/service/url-resource.service";
 
 @NgModule({
   imports: [
@@ -58,7 +59,8 @@ import { InfoWindowComponent } from './city-map/info-window/info-window.componen
     AndroidIconService,
     RootService,
     CityItemService,
-    MapService
+    MapService,
+    UrlResourceService
   ]
 })
 export class AppModule {

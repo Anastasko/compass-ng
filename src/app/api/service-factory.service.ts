@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Service} from "../common/service.service";
+import {Service} from "../common/service/service.service";
 import {ItemKindService} from './service/item-kind.service'
 import {IosIconService} from './service/ios-icon.service'
 import {AndroidIconService} from './service/android-icon.service'

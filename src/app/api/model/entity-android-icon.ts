@@ -1,5 +1,8 @@
 import { Entity } from "../../common/model/entity";
 import { UrlResource } from "../../common/model/url-resource";
+import { ServiceLocator } from "../../service-locator.service";
+import { AndroidIconService } from "../service/android-icon.service";
+
 
 export class EntityAndroidIcon extends Entity {
 
@@ -17,5 +20,10 @@ export class EntityAndroidIcon extends Entity {
         this.mdpi = options.mdpi;
         this.hdpi = options.hdpi;
     }
+
+    getService(){
+        return ServiceLocator.injector.get(AndroidIconService);
+    }
+
 
 }

@@ -19,6 +19,10 @@ var utils = {
 
     makeFirstLetterLowerCase(input){
         return input.substr(0, 1).toLowerCase() + input.substr(1);
+    },
+
+    makeFirstLetterUpperCase(input){
+      return input.substr(0, 1).toUpperCase() + input.substr(1);
     }
 
 };

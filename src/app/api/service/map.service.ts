@@ -1,7 +1,8 @@
 
+import { config } from '../../config';
 import { Injectable } from '@angular/core';
 import { EntityMap } from '../model/entity-map';
-import { Service } from "../../common/service.service";
+import { Service } from "../../common/service/service.service";
 
 @Injectable()
 export class MapService extends Service<EntityMap> {
@@ -13,7 +14,7 @@ export class MapService extends Service<EntityMap> {
     prefix() {
         return '/map';
     }
-    
+
     getFields(): any[] {
         return [
   {

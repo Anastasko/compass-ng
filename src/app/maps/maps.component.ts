@@ -1,51 +1,74 @@
 import {Component, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 
 import {MapService} from '../api/service/map.service';
 import {EntityMap} from '../api/model/entity-map';
+import {CityItemService} from "../api/service/city-item.service";
 
 @Component({
-    selector: 'x-map',
-    templateUrl: './maps.component.html',
-    providers: [MapService]
+  selector: 'x-map',
+  templateUrl: './maps.component.html',
+  providers: [MapService]
 })
 export class MapsComponent {
 
-    maps: EntityMap[];
+  maps: EntityMap[];
 
-    @ViewChild('mapForm') mapForm : any;
-    private showForm : boolean = false;
+  @ViewChild('mapForm') mapForm: any;
+  private showForm: boolean = false;
 
-    constructor(private mapService: MapService,
-                private _router: Router) {
+  private sub: any;
 
-    }
+  constructor(private mapService: MapService,
+              private _router: Router,
+              private cityItemService: CityItemService,
+              private route: ActivatedRoute) {
 
-    ngOnInit() {
+  }
+
+  ngOnInit() {
+    this.sub = this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.cityItemService.findOne(params['id'])
+          .then(cityItem => cityItem.getMaps())
+          .then((maps: EntityMap[]) => {
+            this.maps = maps;
+          });
+      } else {
         this.mapService.findAll()
-            .then((maps : EntityMap[]) => {
-                this.maps = maps;
-            });
-    }
+          .then((maps: EntityMap[]) => {
+            this.maps = maps;
+          });
+      }
+    });
+  }
 
-    open(map: EntityMap) {
-        this._router.navigate([`/map/edit/${map.id}`]);
-    }
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
 
-    update(map: EntityMap){
-        this.showForm = true;
-        this.mapForm.render(map);
-    }
+  callback(){
+    this.showForm = false;
+  }
 
-    delete(map: EntityMap, index: number) {
-        this.mapService.delete(map)
-            .then(() => {
-                this.maps.splice(index, 1);
-            })
-    }
+  open(map: EntityMap) {
+    this._router.navigate([`/map/edit/${map.id}`]);
+  }
 
-    add(){
-        this._router.navigate([`/map/create`]);
-    }
+  update(map: EntityMap) {
+    this.showForm = true;
+    this.mapForm.render(map);
+  }
+
+  delete(map: EntityMap, index: number) {
+    this.mapService.delete(map)
+      .then(() => {
+        this.maps.splice(index, 1);
+      })
+  }
+
+  add() {
+    this._router.navigate([`/map/create`]);
+  }
 
 }

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, Output, EventEmitter}  from '@angular/core';
 import {FormGroup}                 from '@angular/forms';
 import {QuestionControlService}    from './field-control.service';
-import {Service} from "../common/service.service";
+import {Service} from "../common/service/service.service";
 import {FieldViewModel} from "../common/model/field-view-model";
 
 @Component({
@@ -12,7 +12,7 @@ import {FieldViewModel} from "../common/model/field-view-model";
 export class DynamicFormComponent implements OnInit {
 
   ngOnInit(): void {
-    this.fields = this.service.getFields();
+    this.fields = this.service.getFields().filter(f => f.fieldKind === 'REGULAR');
     this.form = this.qcs.toFormGroup(this.fields);
   }
 
@@ -33,6 +33,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.form.value);
     if (this.item.id) {
       this.form.value.id = this.item.id;
       this.service.update(this.form.value).then(() => {

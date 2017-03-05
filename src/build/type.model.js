@@ -11,11 +11,17 @@ class TypeModel {
 
         let code = `import { Entity } from "../../common/model/entity";
 import { UrlResource } from "../../common/model/url-resource";
+import { ServiceLocator } from "../../service-locator.service";
+import { ${this.type.typeName}Service } from "../service/${utils.dashedName(this.type.typeName)}.service";
+${this.createCollectionFieldsTypeImports()}
 
 export class Entity${this.type.typeName} extends Entity {
 
 ${this.createFields()}
 ${this.createConstructor()}
+${this.createGetServiceMethod()}
+${this.createCollectionsPseudoGetters()}
+
 }`;
         return code;
     }
@@ -23,7 +29,9 @@ ${this.createConstructor()}
     createFields() {
         let fields = '';
         _.each(this.type.fields, field => {
-            fields += `    ${this.declareField(field)}\n`
+          if (field.fieldKind !== 'COLLECTION') {
+              fields += `    ${this.declareField(field)}\n`;
+            }
         });
         return fields;
     }
@@ -32,9 +40,11 @@ ${this.createConstructor()}
         let constr = '    constructor(options: any){\n'
         constr += '        super(options);\n';
         _.each(this.type.fields, field => {
-           constr += `        ${this.assignField(field)}\n`;
+          if (field.fieldKind !== 'COLLECTION') {
+            constr += `        ${this.assignField(field)}\n`;
+          }
         });
-        constr += '    }\n';
+        constr += '    }';
         return constr;
     }
 
@@ -69,6 +79,44 @@ ${this.createConstructor()}
     fileName() {
         return `/${utils.dashedName('Entity' + this.type.typeName)}.ts`;
     }
+
+  createCollectionFieldsTypeImports() {
+    let getters = '';
+    _.each(this.type.fields, field => {
+      if (field.fieldKind === 'COLLECTION'){
+        getters += this.createCollectionFieldsTypeImport(field);
+      }
+    });
+    return getters;
+  }
+
+  createCollectionFieldsTypeImport(field) {
+    return `import { Entity${field.fieldType.typeName} } from "../model/${utils.dashedName('Entity' + field.fieldType.typeName)}";`;
+  }
+
+  createCollectionsPseudoGetters() {
+    let getters = '';
+    _.each(this.type.fields, field => {
+      if (field.fieldKind === 'COLLECTION'){
+        getters += this.createCollectionsPseudoGetter(field);
+      }
+    });
+    return getters;
+  }
+
+  createCollectionsPseudoGetter(field) {
+    return `
+    get${utils.makeFirstLetterUpperCase(field.fieldName)}(): Promise<Entity${field.fieldType.typeName}[]> {
+        return this.getService().find${utils.makeFirstLetterUpperCase(field.fieldName)}Of(this);
+    }`
+  }
+
+  createGetServiceMethod(){
+      return `
+    getService(){
+        return ServiceLocator.injector.get(${this.type.typeName}Service);
+    }`;
+  }
 
 }
 

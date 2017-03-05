@@ -1,7 +1,8 @@
 
+import { config } from '../../config';
 import { Injectable } from '@angular/core';
 import { EntityRoot } from '../model/entity-root';
-import { Service } from "../../common/service.service";
+import { Service } from "../../common/service/service.service";
 
 @Injectable()
 export class RootService extends Service<EntityRoot> {
@@ -13,7 +14,11 @@ export class RootService extends Service<EntityRoot> {
     prefix() {
         return '/root';
     }
-    
+
+    findCityItemsOf(owner: EntityRoot){
+        return this.getRequest('/' + owner.id + '/cityItems');
+    }
+
     getFields(): any[] {
         return [
   {

@@ -23,4 +23,9 @@
     </div>
 </section>
 
-<dynamic-form #mapForm [service]="mapService" [hidden]="!showForm"></dynamic-form>
+<dynamic-form #mapForm
+              [service]="mapService"
+              [hidden]="!showForm"
+              (callback)="callback()">
+
+</dynamic-form>

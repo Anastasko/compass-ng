@@ -1,7 +1,8 @@
 
+import { config } from '../../config';
 import { Injectable } from '@angular/core';
 import { EntityAndroidIcon } from '../model/entity-android-icon';
-import { Service } from "../../common/service.service";
+import { Service } from "../../common/service/service.service";
 
 @Injectable()
 export class AndroidIconService extends Service<EntityAndroidIcon> {
@@ -13,7 +14,7 @@ export class AndroidIconService extends Service<EntityAndroidIcon> {
     prefix() {
         return '/androidIcon';
     }
-    
+
     getFields(): any[] {
         return [
   {

@@ -28,7 +28,6 @@ export class MapEditComponent implements OnInit, OnDestroy {
 
     constructor(private _http: Http,
                 private _mapService: MapService,
-                // private _mapItemService: MapItemService,
                 private route: ActivatedRoute) {
 
     }

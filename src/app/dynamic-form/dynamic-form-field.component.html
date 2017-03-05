@@ -1,7 +1,6 @@
 <div [formGroup]="form">
-  <div [ngSwitch]="field.fieldType.typeKind">
 
-    <md-input-container *ngSwitchCase="'PRIMITIVE'">
+    <md-input-container *ngIf="field.fieldType.typeKind === 'PRIMITIVE' && field.fieldType.primitiveEntityType !== 'URL_RESOURCE'">
       <input mdInput
              [required]="field.required ? 'required' : null"
              [formControlName]="field.fieldName"
@@ -11,7 +10,7 @@
 
     </md-input-container>
 
-    <div *ngSwitchCase="'ENTITY'">
+    <div *ngIf="field.fieldType.typeKind === 'ENTITY'">
 
       <md-select *ngIf="field.fieldKind != 'COLLECTION'"
         [placeholder]="field.label"
@@ -26,6 +25,17 @@
     </div>
 
 
+  <div *ngIf="field.fieldType.primitiveEntityType === 'URL_RESOURCE'">
+
+    <md-select [placeholder]="field.label"
+               [formControlName]="field.fieldName"
+               [id]="field.fieldName">
+      <md-option *ngFor="let entity of entities"
+                 [value]="{url: entity}">
+        {{entity}}
+      </md-option>
+    </md-select>
 
   </div>
+
 </div>

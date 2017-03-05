@@ -1,5 +1,8 @@
 import { Entity } from "../../common/model/entity";
 import { UrlResource } from "../../common/model/url-resource";
+import { ServiceLocator } from "../../service-locator.service";
+import { ItemKindService } from "../service/item-kind.service";
+
 
 export class EntityItemKind extends Entity {
 
@@ -13,5 +16,10 @@ export class EntityItemKind extends Entity {
         this.iosIcon = new Entity(options.iosIcon);
         this.androidIcon = new Entity(options.androidIcon);
     }
+
+    getService(){
+        return ServiceLocator.injector.get(ItemKindService);
+    }
+
 
 }
