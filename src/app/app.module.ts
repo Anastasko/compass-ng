@@ -27,8 +27,8 @@ import {RootService} from './api/service/root.service'
 import {CityItemService} from './api/service/city-item.service'
 import {MapService} from './api/service/map.service'
 import {ServiceFactory} from "./api/service-factory.service";
-import { InfoWindowComponent } from './city-map/info-window/info-window.component';
-import { UrlResourceService } from "./common/service/url-resource.service";
+import {InfoWindowComponent} from './city-map/info-window/info-window.component';
+import {UrlResourceService} from "./common/service/url-resource.service";
 
 @NgModule({
   imports: [
@@ -38,7 +38,7 @@ import { UrlResourceService } from "./common/service/url-resource.service";
     MaterialModule.forRoot(),
     RouterModule.forRoot(ROUTES),
     ReactiveFormsModule,
-    FlexLayoutModule.forRoot()
+    FlexLayoutModule
   ],
   declarations: [
     AppComponent,
