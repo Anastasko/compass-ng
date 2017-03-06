@@ -34,12 +34,11 @@ export abstract class Service<T extends Entity> {
             });
     }
 
-    create(entity : T): Promise<Response> {
+    create(entity : T): Promise<number> {
         return this._http.post(config.endpoint + this.prefix(), entity)
             .toPromise()
             .then(res => {
-                entity.id = +res.text();
-                return res;
+                return +res.text();
             });
     }
 

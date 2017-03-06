@@ -28,7 +28,6 @@ export class AuthService extends Service<User> {
             })
             .toPromise()
             .then(r => {
-                console.log(r);
                 localStorage.setItem('token', r.token);
             });
     }

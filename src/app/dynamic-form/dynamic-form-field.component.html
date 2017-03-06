@@ -31,8 +31,8 @@
                [formControlName]="field.fieldName"
                [id]="field.fieldName">
       <md-option *ngFor="let entity of entities"
-                 [value]="{url: entity}">
-        {{entity}}
+                 [value]="entity">
+        {{entity.url}}
       </md-option>
     </md-select>
 

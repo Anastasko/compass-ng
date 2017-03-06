@@ -22,7 +22,13 @@ export class UrlResourceService {
     }
 
     findAll(): Promise<UrlResource[]> {
-        return this.getRequest('');
+        return this.getRequest('').then(data => {
+          return data.map(d => {
+            return {
+              url: d
+            }
+          })
+        });
     }
 
     protected getRequest(suffix: string): Promise<UrlResource[]> {

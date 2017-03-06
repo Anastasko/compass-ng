@@ -43,17 +43,26 @@ export class DynamicFormFieldComponent implements OnInit {
 
   enhance(item: any) {
     if (this.field.fieldType.typeKind === 'ENTITY'){
-      item[this.field.fieldName] = this.findEntity(item[this.field.fieldName]);
+      item[this.field.fieldName] = this.findEntity(item[this.field.fieldName], 'id');
+    } else if (this.field.fieldType.primitiveEntityType === 'URL_RESOURCE'){
+      item[this.field.fieldName] = this.findEntity(item[this.field.fieldName], 'url');
     }
   }
 
-  private findEntity(field: any) {
+  dishance(item: any){
+    if (this.field.fieldType.typeKind === 'ENTITY'){
+      item[this.field.fieldName] = {
+        id: item[this.field.fieldName].id
+      }
+    }
+  }
+
+  private findEntity(field: any, key: string) {
     if (field == null){
       return null;
     }
     for(let entity of this.entities){
-      if (entity.id === field.id){
-        console.log(entity);
+      if (entity[key] === field[key]){
         return entity;
       }
     }

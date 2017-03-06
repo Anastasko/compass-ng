@@ -15,10 +15,10 @@
                 (click)='update(map)'>
             Update
         </button>
-        <!--<button md-raised-button color="warn"-->
-        <!--(click)='delete(map, i)'>-->
-        <!--Delete-->
-        <!--</button>-->
+        <button md-raised-button color="warn"
+        (click)='delete(map, i)'>
+        Delete
+        </button>
 
     </div>
 </section>
@@ -26,6 +26,6 @@
 <dynamic-form #mapForm
               [service]="mapService"
               [hidden]="!showForm"
-              (callback)="callback()">
+              (callback)="callback($event)">
 
 </dynamic-form>

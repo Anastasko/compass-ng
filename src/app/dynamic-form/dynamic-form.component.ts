@@ -40,20 +40,22 @@ export class DynamicFormComponent implements OnInit {
 
   onSubmit() {
     console.log(this.form.value);
+    let data = this.form.value;
+    this.fieldComponents.forEach(fieldComponent => {
+      fieldComponent.dishance(data);
+    });
     if (this.item.id) {
-      this.form.value.id = this.item.id;
-      this.service.update(this.form.value).then(() => {
+      data.id = this.item.id;
+      this.service.update(data).then(() => {
         this.service.findOne(this.item.id).then(upd => {
           this.service.merge(this.item, upd);
           this.callback.emit(null);
         });
       });
     } else {
-      this.service.create(this.form.value).then((r) => {
-        this.service.findOne(r.json().id).then(created => {
-          this.item.id = created.id;
-          this.service.merge(this.item, created);
-          this.callback.emit(null);
+      this.service.create(data).then(id => {
+        this.service.findOne(id).then(created => {
+          this.callback.emit(created);
         });
       });
     }

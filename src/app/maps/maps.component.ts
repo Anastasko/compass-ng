@@ -4,6 +4,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {MapService} from '../api/service/map.service';
 import {EntityMap} from '../api/model/entity-map';
 import {CityItemService} from "../api/service/city-item.service";
+import {Entity} from "../common/model/entity";
 
 @Component({
   selector: 'x-map',
@@ -13,6 +14,7 @@ import {CityItemService} from "../api/service/city-item.service";
 export class MapsComponent {
 
   maps: EntityMap[];
+  owner: Entity;
 
   @ViewChild('mapForm') mapForm: any;
   private showForm: boolean = false;
@@ -29,6 +31,9 @@ export class MapsComponent {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       if (params['id']) {
+        this.owner = new Entity({
+          id: +params['id']
+        });
         this.cityItemService.findOne(params['id'])
           .then(cityItem => cityItem.getMaps())
           .then((maps: EntityMap[]) => {
@@ -47,7 +52,10 @@ export class MapsComponent {
     this.sub.unsubscribe();
   }
 
-  callback(){
+  callback(item){
+    if (item){
+      this.maps.push(item);
+    }
     this.showForm = false;
   }
 
@@ -68,7 +76,9 @@ export class MapsComponent {
   }
 
   add() {
-    this._router.navigate([`/map/create`]);
+    this.update(new EntityMap({
+      owner: this.owner
+    }));
   }
 
 }
