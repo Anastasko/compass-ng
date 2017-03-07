@@ -15,10 +15,14 @@ export class MapService extends Service<EntityMap> {
         return '/map';
     }
 
+    findMapItemsOf(owner: EntityMap){
+        return this.getRequest('/' + owner.id + '/mapItems');
+    }
+
     getFields(): any[] {
         return [
   {
-    "id": 20,
+    "id": 21,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 3,
@@ -31,7 +35,7 @@ export class MapService extends Service<EntityMap> {
     "order": 1
   },
   {
-    "id": 21,
+    "id": 22,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 0,
@@ -44,7 +48,20 @@ export class MapService extends Service<EntityMap> {
     "order": 2
   },
   {
-    "id": 27,
+    "id": 23,
+    "fieldKind": "COLLECTION",
+    "fieldType": {
+      "id": 10,
+      "typeName": "MapItem",
+      "typeKind": "ENTITY",
+      "primitiveEntityType": null
+    },
+    "fieldName": "mapItems",
+    "label": "Map Items",
+    "order": 3
+  },
+  {
+    "id": 30,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 8,
@@ -54,7 +71,7 @@ export class MapService extends Service<EntityMap> {
     },
     "fieldName": "owner",
     "label": "Owner",
-    "order": 3
+    "order": 4
   }
 ];
     }

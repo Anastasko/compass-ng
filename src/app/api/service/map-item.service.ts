@@ -1,28 +1,37 @@
 
 import { config } from '../../config';
 import { Injectable } from '@angular/core';
-import { EntityCityItem } from '../model/entity-city-item';
+import { EntityMapItem } from '../model/entity-map-item';
 import { Service } from "../../common/service/service.service";
 
 @Injectable()
-export class CityItemService extends Service<EntityCityItem> {
+export class MapItemService extends Service<EntityMapItem> {
     
-    getInstance(o: any): EntityCityItem {
-        return new EntityCityItem(o);
+    getInstance(o: any): EntityMapItem {
+        return new EntityMapItem(o);
     }
 
     prefix() {
-        return '/cityItem';
-    }
-
-    findMapsOf(owner: EntityCityItem){
-        return this.getRequest('/' + owner.id + '/maps');
+        return '/mapItem';
     }
 
     getFields(): any[] {
         return [
   {
-    "id": 25,
+    "id": 24,
+    "fieldKind": "REGULAR",
+    "fieldType": {
+      "id": 9,
+      "typeName": "Map",
+      "typeKind": "ENTITY",
+      "primitiveEntityType": null
+    },
+    "fieldName": "owner",
+    "label": "Owner",
+    "order": 1
+  },
+  {
+    "id": 31,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 1,
@@ -32,23 +41,10 @@ export class CityItemService extends Service<EntityCityItem> {
     },
     "fieldName": "name",
     "label": "Name",
-    "order": 1
-  },
-  {
-    "id": 26,
-    "fieldKind": "REGULAR",
-    "fieldType": {
-      "id": 2,
-      "typeName": "Undefined",
-      "typeKind": "PRIMITIVE",
-      "primitiveEntityType": "DOUBLE"
-    },
-    "fieldName": "longitude",
-    "label": "Longitude",
     "order": 2
   },
   {
-    "id": 27,
+    "id": 32,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 2,
@@ -56,25 +52,38 @@ export class CityItemService extends Service<EntityCityItem> {
       "typeKind": "PRIMITIVE",
       "primitiveEntityType": "DOUBLE"
     },
-    "fieldName": "latitude",
-    "label": "Latitude",
+    "fieldName": "x",
+    "label": "X",
     "order": 3
   },
   {
-    "id": 28,
-    "fieldKind": "COLLECTION",
+    "id": 33,
+    "fieldKind": "REGULAR",
     "fieldType": {
-      "id": 9,
-      "typeName": "Map",
-      "typeKind": "ENTITY",
-      "primitiveEntityType": null
+      "id": 2,
+      "typeName": "Undefined",
+      "typeKind": "PRIMITIVE",
+      "primitiveEntityType": "DOUBLE"
     },
-    "fieldName": "maps",
-    "label": "Maps",
+    "fieldName": "y",
+    "label": "Y",
     "order": 4
   },
   {
-    "id": 29,
+    "id": 34,
+    "fieldKind": "REGULAR",
+    "fieldType": {
+      "id": 2,
+      "typeName": "Undefined",
+      "typeKind": "PRIMITIVE",
+      "primitiveEntityType": "DOUBLE"
+    },
+    "fieldName": "pathId",
+    "label": "Path Id",
+    "order": 5
+  },
+  {
+    "id": 35,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 4,
@@ -84,19 +93,6 @@ export class CityItemService extends Service<EntityCityItem> {
     },
     "fieldName": "kind",
     "label": "Kind",
-    "order": 5
-  },
-  {
-    "id": 37,
-    "fieldKind": "REGULAR",
-    "fieldType": {
-      "id": 7,
-      "typeName": "Root",
-      "typeKind": "ENTITY",
-      "primitiveEntityType": null
-    },
-    "fieldName": "owner",
-    "label": "Owner",
     "order": 6
   }
 ];

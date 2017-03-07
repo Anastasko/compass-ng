@@ -2,7 +2,7 @@ import { Entity } from "../../common/model/entity";
 import { UrlResource } from "../../common/model/url-resource";
 import { ServiceLocator } from "../../service-locator.service";
 import { MapService } from "../service/map.service";
-
+import { EntityMapItem } from "../model/entity-map-item";
 
 export class EntityMap extends Entity {
 
@@ -21,5 +21,8 @@ export class EntityMap extends Entity {
         return ServiceLocator.injector.get(MapService);
     }
 
+    getMapItems(): Promise<EntityMapItem[]> {
+        return this.getService().findMapItemsOf(this);
+    }
 
 }

@@ -6,6 +6,7 @@ import {AndroidIconService} from './service/android-icon.service'
 import {RootService} from './service/root.service'
 import {CityItemService} from './service/city-item.service'
 import {MapService} from './service/map.service'
+import {MapItemService} from './service/map-item.service'
 
 @Injectable()
 export class ServiceFactory {
@@ -16,7 +17,8 @@ export class ServiceFactory {
         private androidIconService : AndroidIconService,
         private rootService : RootService,
         private cityItemService : CityItemService,
-        private mapService : MapService){}
+        private mapService : MapService,
+        private mapItemService : MapItemService){}
     
     getService(id: number): Service<any> {
         switch (id) {
@@ -32,6 +34,8 @@ export class ServiceFactory {
                 return this.cityItemService;
             case 9:
                 return this.mapService;
+            case 10:
+                return this.mapItemService;
         }
     }
     

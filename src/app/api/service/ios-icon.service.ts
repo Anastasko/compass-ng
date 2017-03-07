@@ -18,7 +18,7 @@ export class IosIconService extends Service<EntityIosIcon> {
     getFields(): any[] {
         return [
   {
-    "id": 10,
+    "id": 11,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 3,
@@ -31,7 +31,7 @@ export class IosIconService extends Service<EntityIosIcon> {
     "order": 1
   },
   {
-    "id": 11,
+    "id": 12,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 3,

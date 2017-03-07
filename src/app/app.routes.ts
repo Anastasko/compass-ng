@@ -12,7 +12,7 @@ export const ROUTES: Routes = [
     {
         path: 'city', component: CityMapComponent, canActivate: [AuthGuard]
     },
-    {path: 'map/edit/:id', component: MapEditComponent},
+    {path: 'map/edit/:id', component: MapEditComponent, canActivate: [AuthGuard]},
     {path: 'maps', component: MapsComponent, canActivate: [AuthGuard]},
     {path: 'cityItem/:id/maps', component: MapsComponent, canActivate: [AuthGuard]},
 ];

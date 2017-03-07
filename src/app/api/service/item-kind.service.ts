@@ -18,7 +18,7 @@ export class ItemKindService extends Service<EntityItemKind> {
     getFields(): any[] {
         return [
   {
-    "id": 17,
+    "id": 18,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 1,
@@ -31,7 +31,7 @@ export class ItemKindService extends Service<EntityItemKind> {
     "order": 1
   },
   {
-    "id": 18,
+    "id": 19,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 5,
@@ -44,7 +44,7 @@ export class ItemKindService extends Service<EntityItemKind> {
     "order": 2
   },
   {
-    "id": 19,
+    "id": 20,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 6,

@@ -22,7 +22,7 @@ export class RootService extends Service<EntityRoot> {
     getFields(): any[] {
         return [
   {
-    "id": 28,
+    "id": 36,
     "fieldKind": "COLLECTION",
     "fieldType": {
       "id": 8,

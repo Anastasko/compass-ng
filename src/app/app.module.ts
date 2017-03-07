@@ -29,6 +29,7 @@ import {MapService} from './api/service/map.service'
 import {ServiceFactory} from "./api/service-factory.service";
 import {InfoWindowComponent} from './city-map/info-window/info-window.component';
 import {UrlResourceService} from "./common/service/url-resource.service";
+import {MapItemService} from "./api/service/map-item.service";
 
 @NgModule({
   imports: [
@@ -60,7 +61,8 @@ import {UrlResourceService} from "./common/service/url-resource.service";
     RootService,
     CityItemService,
     MapService,
-    UrlResourceService
+    UrlResourceService,
+    MapItemService
   ]
 })
 export class AppModule {
