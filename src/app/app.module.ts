@@ -30,6 +30,8 @@ import {ServiceFactory} from "./api/service-factory.service";
 import {InfoWindowComponent} from './city-map/info-window/info-window.component';
 import {UrlResourceService} from "./common/service/url-resource.service";
 import {MapItemService} from "./api/service/map-item.service";
+import {IosIconsComponent} from "./icons/ios-icons.component";
+import {ItemKindsComponent} from "./item-kinds/item-kinds.component";
 
 @NgModule({
   imports: [
@@ -50,7 +52,9 @@ import {MapItemService} from "./api/service/map-item.service";
     MapEditComponent,
     DynamicFormComponent,
     DynamicFormFieldComponent,
-    InfoWindowComponent
+    InfoWindowComponent,
+    IosIconsComponent,
+    ItemKindsComponent
   ],
   bootstrap: [AppComponent],
   providers: [AuthGuard, AuthService,

@@ -1,0 +1,25 @@
+<section [hidden]="showForm">
+  <md-toolbar>
+    <button md-raised-button color="accent"
+            (click)='add()'>
+      Add
+    </button>
+  </md-toolbar>
+  <div *ngFor="let icon of icons; let i=index">
+    {{'#' + icon.id}}
+    <button md-raised-button color="primary"
+            (click)='update(icon)'>
+      Update
+    </button>
+    2x <img src="{{config.endpoint + icon.size2x.url}}"/>
+    3x <img src="{{config.endpoint + icon.size3x.url}}"/>
+<hr />
+  </div>
+</section>
+
+<dynamic-form #iosIconForm
+              [service]="iosIconService"
+              [hidden]="!showForm"
+              (callback)="callback($event)">
+
+</dynamic-form>

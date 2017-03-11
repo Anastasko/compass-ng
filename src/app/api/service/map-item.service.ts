@@ -18,7 +18,7 @@ export class MapItemService extends Service<EntityMapItem> {
     getFields(): any[] {
         return [
   {
-    "id": 24,
+    "id": 26,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 9,
@@ -28,10 +28,11 @@ export class MapItemService extends Service<EntityMapItem> {
     },
     "fieldName": "owner",
     "label": "Owner",
-    "order": 1
+    "order": 1,
+    "prefixPath": ""
   },
   {
-    "id": 31,
+    "id": 34,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 1,
@@ -41,10 +42,11 @@ export class MapItemService extends Service<EntityMapItem> {
     },
     "fieldName": "name",
     "label": "Name",
-    "order": 2
+    "order": 2,
+    "prefixPath": ""
   },
   {
-    "id": 32,
+    "id": 35,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 2,
@@ -54,10 +56,11 @@ export class MapItemService extends Service<EntityMapItem> {
     },
     "fieldName": "x",
     "label": "X",
-    "order": 3
+    "order": 3,
+    "prefixPath": ""
   },
   {
-    "id": 33,
+    "id": 36,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 2,
@@ -67,10 +70,11 @@ export class MapItemService extends Service<EntityMapItem> {
     },
     "fieldName": "y",
     "label": "Y",
-    "order": 4
+    "order": 4,
+    "prefixPath": ""
   },
   {
-    "id": 34,
+    "id": 37,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 2,
@@ -78,12 +82,13 @@ export class MapItemService extends Service<EntityMapItem> {
       "typeKind": "PRIMITIVE",
       "primitiveEntityType": "DOUBLE"
     },
-    "fieldName": "pathId",
-    "label": "Path Id",
-    "order": 5
+    "fieldName": "path",
+    "label": "Path",
+    "order": 5,
+    "prefixPath": ""
   },
   {
-    "id": 35,
+    "id": 38,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 4,
@@ -93,7 +98,8 @@ export class MapItemService extends Service<EntityMapItem> {
     },
     "fieldName": "kind",
     "label": "Kind",
-    "order": 6
+    "order": 6,
+    "prefixPath": ""
   }
 ];
     }

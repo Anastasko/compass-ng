@@ -12,6 +12,7 @@ export class FieldViewModel {
     label: string;
     order: number;
     required: boolean;
+    prefixPath: string;
 
     constructor(options: any){
         this.id = options.id;
@@ -25,6 +26,7 @@ export class FieldViewModel {
         this.fieldName = options.fieldName;
         this.label = options.label;
         this.order = options.order;
+        this.prefixPath = options.prefixPath;
     }
 
 }

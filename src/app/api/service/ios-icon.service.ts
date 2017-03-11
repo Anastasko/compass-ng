@@ -28,7 +28,8 @@ export class IosIconService extends Service<EntityIosIcon> {
     },
     "fieldName": "size2x",
     "label": "Size 2x",
-    "order": 1
+    "order": 1,
+    "prefixPath": "/uploads/icons/ios"
   },
   {
     "id": 12,
@@ -41,7 +42,8 @@ export class IosIconService extends Service<EntityIosIcon> {
     },
     "fieldName": "size3x",
     "label": "Size 3x",
-    "order": 2
+    "order": 2,
+    "prefixPath": "/uploads/icons/ios"
   }
 ];
     }

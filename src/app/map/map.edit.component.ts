@@ -135,7 +135,7 @@ export class MapEditComponent implements OnInit, OnDestroy {
                 var svgNode = documentFragment
                     .getElementsByTagName("svg")[0];
                 let node: any = that.svg.node();
-                node.append(svgNode);
+                node.appendChild(svgNode);
                 that.owner.getMapItems().then((mapItems: EntityMapItem[]) => {
                   that.mapItems = mapItems;
                   that.initMapItems();

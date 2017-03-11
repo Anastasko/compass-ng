@@ -22,7 +22,7 @@ export class CityItemService extends Service<EntityCityItem> {
     getFields(): any[] {
         return [
   {
-    "id": 25,
+    "id": 27,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 1,
@@ -32,10 +32,11 @@ export class CityItemService extends Service<EntityCityItem> {
     },
     "fieldName": "name",
     "label": "Name",
-    "order": 1
+    "order": 1,
+    "prefixPath": ""
   },
   {
-    "id": 26,
+    "id": 28,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 2,
@@ -45,10 +46,11 @@ export class CityItemService extends Service<EntityCityItem> {
     },
     "fieldName": "longitude",
     "label": "Longitude",
-    "order": 2
+    "order": 2,
+    "prefixPath": ""
   },
   {
-    "id": 27,
+    "id": 29,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 2,
@@ -58,10 +60,25 @@ export class CityItemService extends Service<EntityCityItem> {
     },
     "fieldName": "latitude",
     "label": "Latitude",
-    "order": 3
+    "order": 3,
+    "prefixPath": ""
   },
   {
-    "id": 28,
+    "id": 30,
+    "fieldKind": "REGULAR",
+    "fieldType": {
+      "id": 1,
+      "typeName": "Undefined",
+      "typeKind": "PRIMITIVE",
+      "primitiveEntityType": "STRING"
+    },
+    "fieldName": "address",
+    "label": "Address",
+    "order": 4,
+    "prefixPath": ""
+  },
+  {
+    "id": 31,
     "fieldKind": "COLLECTION",
     "fieldType": {
       "id": 9,
@@ -71,10 +88,11 @@ export class CityItemService extends Service<EntityCityItem> {
     },
     "fieldName": "maps",
     "label": "Maps",
-    "order": 4
+    "order": 5,
+    "prefixPath": ""
   },
   {
-    "id": 29,
+    "id": 32,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 4,
@@ -84,10 +102,11 @@ export class CityItemService extends Service<EntityCityItem> {
     },
     "fieldName": "kind",
     "label": "Kind",
-    "order": 5
+    "order": 6,
+    "prefixPath": ""
   },
   {
-    "id": 37,
+    "id": 40,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 7,
@@ -97,7 +116,8 @@ export class CityItemService extends Service<EntityCityItem> {
     },
     "fieldName": "owner",
     "label": "Owner",
-    "order": 6
+    "order": 7,
+    "prefixPath": ""
   }
 ];
     }

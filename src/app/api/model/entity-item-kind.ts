@@ -8,13 +8,17 @@ export class EntityItemKind extends Entity {
 
     name: string;
     iosIcon: Entity;
+    iosSelectedIcon: Entity;
     androidIcon: Entity;
+    androidSelectedIcon: Entity;
 
     constructor(options: any){
         super(options);
         this.name = options.name;
         this.iosIcon = new Entity(options.iosIcon);
+        this.iosSelectedIcon = new Entity(options.iosSelectedIcon);
         this.androidIcon = new Entity(options.androidIcon);
+        this.androidSelectedIcon = new Entity(options.androidSelectedIcon);
     }
 
     getService(){

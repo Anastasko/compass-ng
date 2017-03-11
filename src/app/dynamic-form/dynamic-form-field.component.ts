@@ -23,7 +23,7 @@ export class DynamicFormFieldComponent implements OnInit {
         this.entities = data;
       });
     } else if (this.field.fieldType.primitiveEntityType == 'URL_RESOURCE'){
-      this.urlResourceService.findAll().then(data => {
+      this.urlResourceService.findAll(this.field.prefixPath).then(data => {
         this.entities = data;
       });
     }

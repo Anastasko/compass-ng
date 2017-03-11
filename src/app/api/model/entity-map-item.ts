@@ -10,7 +10,7 @@ export class EntityMapItem extends Entity {
     name: string;
     x: number;
     y: number;
-    pathId: number;
+    path: number;
     kind: Entity;
 
     constructor(options: any){
@@ -19,7 +19,7 @@ export class EntityMapItem extends Entity {
         this.name = options.name;
         this.x = options.x;
         this.y = options.y;
-        this.pathId = options.pathId;
+        this.path = options.path;
         this.kind = new Entity(options.kind);
     }
 

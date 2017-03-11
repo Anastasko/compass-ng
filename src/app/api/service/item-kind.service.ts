@@ -28,7 +28,8 @@ export class ItemKindService extends Service<EntityItemKind> {
     },
     "fieldName": "name",
     "label": "Name",
-    "order": 1
+    "order": 1,
+    "prefixPath": ""
   },
   {
     "id": 19,
@@ -41,10 +42,25 @@ export class ItemKindService extends Service<EntityItemKind> {
     },
     "fieldName": "iosIcon",
     "label": "Ios Icon",
-    "order": 2
+    "order": 2,
+    "prefixPath": ""
   },
   {
     "id": 20,
+    "fieldKind": "REGULAR",
+    "fieldType": {
+      "id": 5,
+      "typeName": "IosIcon",
+      "typeKind": "ENTITY",
+      "primitiveEntityType": null
+    },
+    "fieldName": "iosSelectedIcon",
+    "label": "Ios Selected Icon",
+    "order": 3,
+    "prefixPath": ""
+  },
+  {
+    "id": 21,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 6,
@@ -54,7 +70,22 @@ export class ItemKindService extends Service<EntityItemKind> {
     },
     "fieldName": "androidIcon",
     "label": "Android Icon",
-    "order": 3
+    "order": 4,
+    "prefixPath": ""
+  },
+  {
+    "id": 22,
+    "fieldKind": "REGULAR",
+    "fieldType": {
+      "id": 5,
+      "typeName": "IosIcon",
+      "typeKind": "ENTITY",
+      "primitiveEntityType": null
+    },
+    "fieldName": "androidSelectedIcon",
+    "label": "Android Selected Icon",
+    "order": 5,
+    "prefixPath": ""
   }
 ];
     }

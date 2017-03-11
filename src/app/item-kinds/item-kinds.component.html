@@ -1,0 +1,22 @@
+<section [hidden]="showForm">
+  <md-toolbar>
+    <button md-raised-button color="accent"
+            (click)='add()'>
+      Add
+    </button>
+  </md-toolbar>
+  <div *ngFor="let kind of kinds; let i=index">
+    <button md-raised-button color="primary"
+            (click)='update(kind)'>
+      Update
+    </button>
+    {{kind.name}}
+  </div>
+</section>
+
+<dynamic-form #itemKindForm
+              [service]="itemKindService"
+              [hidden]="!showForm"
+              (callback)="callback($event)">
+
+</dynamic-form>

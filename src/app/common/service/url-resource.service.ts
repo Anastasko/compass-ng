@@ -21,8 +21,8 @@ export class UrlResourceService {
         this._http = ServiceLocator.injector.get(Http);
     }
 
-    findAll(): Promise<UrlResource[]> {
-        return this.getRequest('').then(data => {
+    findAll(prefix: string): Promise<UrlResource[]> {
+        return this.getRequest(`?prefix=${prefix}`).then(data => {
           return data.map(d => {
             return {
               url: d

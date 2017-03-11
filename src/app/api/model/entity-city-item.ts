@@ -9,6 +9,7 @@ export class EntityCityItem extends Entity {
     name: string;
     longitude: number;
     latitude: number;
+    address: string;
     kind: Entity;
     owner: Entity;
 
@@ -17,6 +18,7 @@ export class EntityCityItem extends Entity {
         this.name = options.name;
         this.longitude = options.longitude;
         this.latitude = options.latitude;
+        this.address = options.address;
         this.kind = new Entity(options.kind);
         this.owner = new Entity(options.owner);
     }

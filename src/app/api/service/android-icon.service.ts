@@ -28,7 +28,8 @@ export class AndroidIconService extends Service<EntityAndroidIcon> {
     },
     "fieldName": "xxxhdpi",
     "label": "Xxxhdpi",
-    "order": 1
+    "order": 1,
+    "prefixPath": ""
   },
   {
     "id": 14,
@@ -41,7 +42,8 @@ export class AndroidIconService extends Service<EntityAndroidIcon> {
     },
     "fieldName": "xxhdpi",
     "label": "Xxhdpi",
-    "order": 2
+    "order": 2,
+    "prefixPath": ""
   },
   {
     "id": 15,
@@ -54,7 +56,8 @@ export class AndroidIconService extends Service<EntityAndroidIcon> {
     },
     "fieldName": "xhdpi",
     "label": "Xhdpi",
-    "order": 3
+    "order": 3,
+    "prefixPath": ""
   },
   {
     "id": 16,
@@ -67,7 +70,8 @@ export class AndroidIconService extends Service<EntityAndroidIcon> {
     },
     "fieldName": "mdpi",
     "label": "Mdpi",
-    "order": 4
+    "order": 4,
+    "prefixPath": ""
   },
   {
     "id": 17,
@@ -80,7 +84,8 @@ export class AndroidIconService extends Service<EntityAndroidIcon> {
     },
     "fieldName": "hdpi",
     "label": "Hdpi",
-    "order": 5
+    "order": 5,
+    "prefixPath": ""
   }
 ];
     }
