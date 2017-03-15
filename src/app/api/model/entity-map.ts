@@ -6,23 +6,23 @@ import { EntityMapItem } from "../model/entity-map-item";
 
 export class EntityMap extends Entity {
 
-    image: UrlResource;
-    floor: number;
-    owner: Entity;
+  image: UrlResource;
+  floor: number;
+  owner: Entity;
 
-    constructor(options: any){
-        super(options);
-        this.image = options.image;
-        this.floor = options.floor;
-        this.owner = new Entity(options.owner);
-    }
+  constructor(options: any) {
+    super(options);
+    this.image = options.image;
+    this.floor = options.floor;
+    this.owner = new Entity(options.owner);
+  }
 
-    getService(){
-        return ServiceLocator.injector.get(MapService);
-    }
+  getService() {
+    return ServiceLocator.injector.get(MapService);
+  }
 
-    getMapItems(): Promise<EntityMapItem[]> {
-        return this.getService().findMapItemsOf(this);
-    }
+  getMapItems(): Promise<EntityMapItem[]> {
+    return this.getService().findMapItemsOf(this);
+  }
 
 }

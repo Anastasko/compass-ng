@@ -1,12 +1,12 @@
 export class UrlResource {
 
-    url?: string;
+  url?: string;
 
-    constructor(options: any){
-        if (!options){
-            return;
-        }
-        this.url = options.url;
+  constructor(options: any) {
+    if (!options) {
+      return;
     }
+    this.url = options.url;
+  }
 
 }

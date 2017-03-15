@@ -1,7 +1,7 @@
-import {Component, ViewChild} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {EntityItemKind} from "../api/model/entity-item-kind";
-import {ItemKindService} from "../api/service/item-kind.service";
+import { Component, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { EntityItemKind } from "../api/model/entity-item-kind";
+import { ItemKindService } from "../api/service/item-kind.service";
 
 @Component({
   selector: 'x-map',
@@ -22,14 +22,14 @@ export class ItemKindsComponent {
   }
 
   ngOnInit() {
-      this.itemKindService.findAll()
-        .then((kinds: EntityItemKind[]) => {
-          this.kinds = kinds;
-        });
+    this.itemKindService.findAll()
+      .then((kinds: EntityItemKind[]) => {
+        this.kinds = kinds;
+      });
   }
 
-  callback(item){
-    if (item){
+  callback(item) {
+    if (item) {
       this.kinds.push(item);
     }
     this.showForm = false;

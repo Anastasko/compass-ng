@@ -1,17 +1,17 @@
-import {Component, OnInit, NgZone, ViewChild} from '@angular/core';
-import {GeoCoder} from './geo-coder';
-import {EntityCityItem} from '../api/model/entity-city-item';
-import {CityItemService} from '../api/service/city-item.service';
-import {Observable} from "rxjs";
-import {InfoWindowComponent} from "./info-window/info-window.component";
-import {ItemKindService} from "../api/service/item-kind.service";
-import {EntityItemKind} from "../api/model/entity-item-kind";
-import {AndroidIconService} from "../api/service/android-icon.service";
-import {IosIconService} from "../api/service/ios-icon.service";
-import {EntityIosIcon} from "../api/model/entity-ios-icon";
-import {EntityMap} from "../api/model/entity-map";
-import {config} from "../config";
-import {EntityAndroidIcon} from "../api/model/entity-android-icon";
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
+import { GeoCoder } from './geo-coder';
+import { EntityCityItem } from '../api/model/entity-city-item';
+import { CityItemService } from '../api/service/city-item.service';
+import { Observable } from "rxjs";
+import { InfoWindowComponent } from "./info-window/info-window.component";
+import { ItemKindService } from "../api/service/item-kind.service";
+import { EntityItemKind } from "../api/model/entity-item-kind";
+import { AndroidIconService } from "../api/service/android-icon.service";
+import { IosIconService } from "../api/service/ios-icon.service";
+import { EntityIosIcon } from "../api/model/entity-ios-icon";
+import { EntityMap } from "../api/model/entity-map";
+import { config } from "../config";
+import { EntityAndroidIcon } from "../api/model/entity-android-icon";
 
 declare var google: any;
 
@@ -74,7 +74,7 @@ export class CityMapComponent implements OnInit {
         this.kinds.set(kind.id, kind);
       });
     }).then(() => {
-      return this.androidIconService.findAll().then((icons: EntityAndroidIcon[]) =>  {
+      return this.androidIconService.findAll().then((icons: EntityAndroidIcon[]) => {
         icons.forEach(icon => {
           this.icons.set(icon.id, icon);
         });

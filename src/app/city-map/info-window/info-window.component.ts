@@ -1,5 +1,5 @@
-import {Component, OnInit, Input, EventEmitter, Output, NgZone} from '@angular/core';
-import {Router} from "@angular/router";
+import { Component, OnInit, Input, EventEmitter, Output, NgZone } from '@angular/core';
+import { Router } from "@angular/router";
 
 declare var google: any;
 
@@ -21,7 +21,7 @@ export class InfoWindowComponent implements OnInit {
 
   ngOnInit() {
     this.infoWindow = new google.maps.InfoWindow({
-      content : '',
+      content: '',
       maxWidth: 170
     });
     window['_thisInfoWindow'] = this;
@@ -32,7 +32,7 @@ export class InfoWindowComponent implements OnInit {
     this.render();
   }
 
-  doEdit(e){
+  doEdit(e) {
     e.preventDefault();
     let that = window['_thisInfoWindow'];
     that._zone.run(() => {
@@ -40,17 +40,17 @@ export class InfoWindowComponent implements OnInit {
     });
   }
 
-  goToMaps(e){
+  goToMaps(e) {
     e.preventDefault();
     this.router.navigate(['/cityItem/' + this.marker.cityItem.id + '/maps']);
   }
 
-  render(){
+  render() {
     this.infoWindow.setContent(
       '<b>' + this.marker.cityItem.name + '</b><br>' +
       `<a href="#" onclick="window['_thisInfoWindow'].doEdit(event)">edit</a><br>
        <a href="#" onclick="window['_thisInfoWindow'].goToMaps(event)">go to maps</a>`);
-     // '<i>coordinates:</i>' + this.marker.getPosition().toUrlValue(6) + '.');
+    // '<i>coordinates:</i>' + this.marker.getPosition().toUrlValue(6) + '.');
     this.infoWindow.open(this.map, this.marker);
   }
 

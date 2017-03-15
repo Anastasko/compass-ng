@@ -1,10 +1,10 @@
-import {Component, ViewChild} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import { Component, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import {MapService} from '../api/service/map.service';
-import {EntityMap} from '../api/model/entity-map';
-import {CityItemService} from "../api/service/city-item.service";
-import {Entity} from "../common/model/entity";
+import { MapService } from '../api/service/map.service';
+import { EntityMap } from '../api/model/entity-map';
+import { CityItemService } from "../api/service/city-item.service";
+import { Entity } from "../common/model/entity";
 
 @Component({
   selector: 'x-map',
@@ -52,8 +52,8 @@ export class MapsComponent {
     this.sub.unsubscribe();
   }
 
-  callback(item){
-    if (item){
+  callback(item) {
+    if (item) {
       this.maps.push(item);
     }
     this.showForm = false;

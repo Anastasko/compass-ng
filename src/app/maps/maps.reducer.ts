@@ -6,12 +6,11 @@ interface Maps {
   loading: Boolean
 }
 
-const mapsReducer: ActionReducer<Maps> = (
-  state: Maps = {
-    maps   : [{id: 1, name: 'test'}],
-    count  : 0,
-    loading: false
-  }, action: Action) => {
+const mapsReducer: ActionReducer<Maps> = (state: Maps = {
+  maps: [{ id: 1, name: 'test' }],
+  count: 0,
+  loading: false
+}, action: Action) => {
   return state;
 };
 

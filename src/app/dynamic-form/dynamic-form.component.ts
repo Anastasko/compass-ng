@@ -1,9 +1,9 @@
-import {Component, Input, OnInit, Output, EventEmitter, ViewChildren, QueryList}  from '@angular/core';
-import {FormGroup}                 from '@angular/forms';
-import {QuestionControlService}    from './field-control.service';
-import {Service} from "../common/service/service.service";
-import {FieldViewModel} from "../common/model/field-view-model";
-import {DynamicFormFieldComponent} from "./dynamic-form-field.component";
+import { Component, Input, OnInit, Output, EventEmitter, ViewChildren, QueryList }  from '@angular/core';
+import { FormGroup }                 from '@angular/forms';
+import { QuestionControlService }    from './field-control.service';
+import { Service } from "../common/service/service.service";
+import { FieldViewModel } from "../common/model/field-view-model";
+import { DynamicFormFieldComponent } from "./dynamic-form-field.component";
 
 @Component({
   selector: 'dynamic-form',
@@ -33,7 +33,7 @@ export class DynamicFormComponent implements OnInit {
   render(item: any) {
     this.item = item;
     this.fieldComponents.forEach(fieldComponent => {
-        fieldComponent.enhance(this.item);
+      fieldComponent.enhance(this.item);
     });
     this.form.reset(this.item);
   }

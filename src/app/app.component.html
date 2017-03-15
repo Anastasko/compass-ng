@@ -1,23 +1,21 @@
-
-
-  <div [hidden]="isLogin">
-    <md-toolbar color="primary">
+<div [hidden]="isLogin">
+  <md-toolbar color="primary">
         <span class="right">
           <button md-button
                   *ngFor="let route of ROUTES_NAV" [routerLink]="[route.path]">
             {{route.name}}
           </button>
         </span>
-        <span [hidden]="!authService.loggedIn()">
+    <span [hidden]="!authService.loggedIn()">
           <button md-button (click)="authService.logout()">
             Logout
           </button>
         </span>
-    </md-toolbar>
-  </div>
+  </md-toolbar>
+</div>
 
-  <main>
-    <router-outlet></router-outlet>
-  </main>
+<main>
+  <router-outlet></router-outlet>
+</main>
 
-  <footer></footer>
+<footer></footer>

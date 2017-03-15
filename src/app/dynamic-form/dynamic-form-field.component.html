@@ -1,31 +1,32 @@
 <div [formGroup]="form">
 
-    <md-input-container *ngIf="field.fieldType.typeKind === 'PRIMITIVE' && field.fieldType.primitiveEntityType !== 'URL_RESOURCE'"
-                        style="padding-bottom: 15px" >
-      <input mdInput
-             [required]="field.required ? 'required' : null"
-             [formControlName]="field.fieldName"
-             [id]="field.fieldName"
-             [type]="field.fieldType.primitiveEntityType"
-             [placeholder]="field.label">
+  <md-input-container
+    *ngIf="field.fieldType.typeKind === 'PRIMITIVE' && field.fieldType.primitiveEntityType !== 'URL_RESOURCE'"
+    style="padding-bottom: 15px">
+    <input mdInput
+           [required]="field.required ? 'required' : null"
+           [formControlName]="field.fieldName"
+           [id]="field.fieldName"
+           [type]="field.fieldType.primitiveEntityType"
+           [placeholder]="field.label">
 
-    </md-input-container>
+  </md-input-container>
 
-    <div *ngIf="field.fieldType.typeKind === 'ENTITY'"
-         style="padding-bottom: 20px;">
+  <div *ngIf="field.fieldType.typeKind === 'ENTITY'"
+       style="padding-bottom: 20px;">
 
-      <md-select *ngIf="field.fieldKind != 'COLLECTION'"
-        [placeholder]="field.label"
-        [formControlName]="field.fieldName"
-        [id]="field.fieldName">
-        <md-option *ngFor="let entity of entities"
-                   [value]="entity">
-          {{entity.name || ('#' + entity.id)}}
-        </md-option>
-      </md-select>
-      <br />
+    <md-select *ngIf="field.fieldKind != 'COLLECTION'"
+               [placeholder]="field.label"
+               [formControlName]="field.fieldName"
+               [id]="field.fieldName">
+      <md-option *ngFor="let entity of entities"
+                 [value]="entity">
+        {{entity.name || ('#' + entity.id)}}
+      </md-option>
+    </md-select>
+    <br/>
 
-    </div>
+  </div>
 
 
   <div *ngIf="field.fieldType.primitiveEntityType === 'URL_RESOURCE'"
@@ -39,7 +40,7 @@
         {{entity.url}}
       </md-option>
     </md-select>
-    <br />
+    <br/>
 
   </div>
 

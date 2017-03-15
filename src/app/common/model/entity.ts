@@ -1,12 +1,12 @@
 export class Entity {
 
-    id?: number;
+  id?: number;
 
-    constructor(options: any){
-        if (!options){
-            return;
-        }
-        this.id = options.id;
+  constructor(options: any) {
+    if (!options) {
+      return;
     }
+    this.id = options.id;
+  }
 
 }
