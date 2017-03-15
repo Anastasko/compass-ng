@@ -51,7 +51,7 @@ export class DynamicFormFieldComponent implements OnInit {
 
   dishance(item: any){
     if (this.field.fieldType.typeKind === 'ENTITY'){
-      item[this.field.fieldName] = {
+      item[this.field.fieldName] = item[this.field.fieldName] && {
         id: item[this.field.fieldName].id
       }
     }

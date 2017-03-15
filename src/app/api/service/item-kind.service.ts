@@ -77,8 +77,8 @@ export class ItemKindService extends Service<EntityItemKind> {
     "id": 22,
     "fieldKind": "REGULAR",
     "fieldType": {
-      "id": 5,
-      "typeName": "IosIcon",
+      "id": 6,
+      "typeName": "AndroidIcon",
       "typeKind": "ENTITY",
       "primitiveEntityType": null
     },
