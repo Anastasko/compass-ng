@@ -1,7 +1,7 @@
 import { NgModule, Injector } from '@angular/core';
-import { BrowserModule }  from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -32,6 +32,8 @@ import { UrlResourceService } from "./common/service/url-resource.service";
 import { MapItemService } from "./api/service/map-item.service";
 import { IosIconsComponent } from "./icons/ios-icons.component";
 import { ItemKindsComponent } from "./item-kinds/item-kinds.component";
+import { LandingPageModule } from './landing-page/landing-page.module';
+
 
 @NgModule({
   imports: [
@@ -41,7 +43,8 @@ import { ItemKindsComponent } from "./item-kinds/item-kinds.component";
     MaterialModule.forRoot(),
     RouterModule.forRoot(ROUTES),
     ReactiveFormsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    LandingPageModule
   ],
   declarations: [
     AppComponent,

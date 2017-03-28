@@ -12,14 +12,14 @@ export class LoginComponent {
   model: User = {};
 
   constructor(private authService: AuthService,
-              private router: Router) {
+    private router: Router) {
   }
 
   onSubmit(e: any) {
 
     this.authService.login(this.model)
       .then(() => {
-        this.router.navigate(['/city']);
+        this.router.navigate(['/admin/city']);
       });
   }
 
