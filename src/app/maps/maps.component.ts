@@ -60,7 +60,7 @@ export class MapsComponent {
   }
 
   open(map: EntityMap) {
-    this._router.navigate([`/map/edit/${map.id}`]);
+    this._router.navigate([`/admin/map/edit/${map.id}`]);
   }
 
   update(map: EntityMap) {

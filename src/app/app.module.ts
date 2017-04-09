@@ -33,6 +33,7 @@ import { MapItemService } from "./api/service/map-item.service";
 import { IosIconsComponent } from "./icons/ios-icons.component";
 import { ItemKindsComponent } from "./item-kinds/item-kinds.component";
 import { LandingPageModule } from './landing-page/landing-page.module';
+import { HeaderComponent } from './header/header.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { LandingPageModule } from './landing-page/landing-page.module';
     DynamicFormFieldComponent,
     InfoWindowComponent,
     IosIconsComponent,
-    ItemKindsComponent
+    ItemKindsComponent,
+    HeaderComponent
   ],
   bootstrap: [AppComponent],
   providers: [

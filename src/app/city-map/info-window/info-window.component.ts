@@ -42,7 +42,7 @@ export class InfoWindowComponent implements OnInit {
 
   goToMaps(e) {
     e.preventDefault();
-    this.router.navigate(['/cityItem/' + this.marker.cityItem.id + '/maps']);
+    this.router.navigate(['/admin/cityItem/' + this.marker.cityItem.id + '/maps']);
   }
 
   render() {

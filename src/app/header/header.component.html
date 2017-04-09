@@ -1,0 +1,12 @@
+<div [hidden]="!_auth.loggedIn()">
+  <md-toolbar color="primary">
+    <span class="right">
+      <button md-button *ngFor="let route of ROUTES_NAV" [routerLink]="[route.path]">
+        {{route.name}}
+      </button>
+    </span>
+    <button md-button (click)="_auth.logout()">
+      Logout
+    </button>
+  </md-toolbar>
+</div>

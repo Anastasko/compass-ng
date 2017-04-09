@@ -34,10 +34,11 @@ export class AuthService extends Service<User> {
 
   logout() {
     localStorage.removeItem('token');
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/admin/login');
   }
 
   loggedIn() {
-    return localStorage.getItem('token') != null;
+    console.log(!!localStorage.getItem('token'));
+    return !!localStorage.getItem('token');
   }
 }
