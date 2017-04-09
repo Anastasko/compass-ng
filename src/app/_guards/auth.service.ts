@@ -38,7 +38,6 @@ export class AuthService extends Service<User> {
   }
 
   loggedIn() {
-    console.log(!!localStorage.getItem('token'));
     return !!localStorage.getItem('token');
   }
 }
