@@ -19,7 +19,6 @@ import { IosIconService } from './api/service/ios-icon.service'
 import { IosIconsComponent } from "./icons/ios-icons.component";
 import { ItemKindService } from './api/service/item-kind.service'
 import { ItemKindsComponent } from "./item-kinds/item-kinds.component";
-import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LandingPageModule } from './landing-page/landing-page.module';
 import { HeaderComponent } from './header/header.component';
 
