@@ -14,7 +14,11 @@ import { MapItemService } from "../api/service/map-item.service";
   template: `
         <div [hidden]="showForm">
           Map: #{{map?.id}}  {{status}}
-          <div id="map" style="height: calc(100vh - 110px); border: 1px solid black"></div>
+          <div id="map" 
+          (click)="clicked($event)"
+          style="height: calc(100vh - 110px); border: 1px solid black">
+          
+          </div>
           <div id="map_item_menu" [style.display]="hideMenu ? 'none' : 'block'">
             <button (click)="edit()">
               edit
@@ -67,12 +71,45 @@ export class MapEditComponent implements OnInit, OnDestroy {
     k: 1
   };
   contextMenuItemIndex: number;
+  prevPath: any;
 
   constructor(private _mapService: MapService,
               private route: ActivatedRoute,
               private ngZone: NgZone,
               private mapItemService: MapItemService) {
 
+  }
+
+  clicked(event){
+    let name = event.target.nodeName;
+    if (name === 'path') {
+      let id = event.target.id;
+      let el = event.srcElement;
+      if (this.isSelected(el)){
+        this.prevPath = null;
+        this.makeUnselected(el);
+      } else {
+        if (this.prevPath) {
+          this.makeUnselected(this.prevPath);
+        }
+        this.prevPath = el;
+        this.makeSelected(el);
+      }
+    }
+  }
+
+  makeSelected(el){
+    el.setAttribute('was-fill', el.getAttribute('fill'));
+    el.setAttribute('fill', 'blue');
+  }
+
+  makeUnselected(el){
+    el.setAttribute('fill', el.getAttribute('was-fill'));
+    el.setAttribute('was-fill', '');
+  }
+
+  isSelected(el){
+    return el.getAttribute('was-fill') && el.getAttribute('was-fill').length > 0;
   }
 
   ngOnInit() {
