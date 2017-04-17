@@ -19,6 +19,7 @@ export const ROUTES: Routes = [
   { path: 'cityItem/:id/maps', component: MapsComponent, canActivate: [AuthGuard] },
   { path: 'iosIcons', component: IosIconsComponent, canActivate: [AuthGuard] },
   { path: 'itemKinds', component: ItemKindsComponent, canActivate: [AuthGuard] },
+    {path: 'faculties', component: FacultiesComponent, canActivate: [AuthGuard]},
 ];
 
 export const ROUTES_NAV = [

@@ -18,6 +18,7 @@ export class RootService extends Service<EntityRoot> {
     return this.getRequest('/' + owner.id + '/cityItems');
   }
 
+<<<<<<< HEAD
   getFields(): any[] {
     return [
       {
@@ -35,6 +36,23 @@ export class RootService extends Service<EntityRoot> {
         "prefixPath": ""
       }
     ];
+=======
+    getFields(): any[] {
+        return [
+  {
+    "id": 47,
+    "fieldKind": "COLLECTION",
+    "fieldType": {
+      "id": 8,
+      "typeName": "CityItem",
+      "typeKind": "ENTITY",
+      "primitiveEntityType": null
+    },
+    "fieldName": "cityItems",
+    "label": "City Items",
+    "order": 1,
+    "prefixPath": ""
+>>>>>>> faculties
   }
 
 }

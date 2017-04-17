@@ -10,8 +10,40 @@ export class IosIconService extends Service<EntityIosIcon> {
     return new EntityIosIcon(o);
   }
 
+<<<<<<< HEAD
   prefix() {
     return '/iosIcon';
+=======
+    getFields(): any[] {
+        return [
+  {
+    "id": 17,
+    "fieldKind": "REGULAR",
+    "fieldType": {
+      "id": 3,
+      "typeName": "Undefined",
+      "typeKind": "PRIMITIVE",
+      "primitiveEntityType": "URL_RESOURCE"
+    },
+    "fieldName": "size2x",
+    "label": "Size 2x",
+    "order": 1,
+    "prefixPath": "/uploads/icons/ios"
+  },
+  {
+    "id": 18,
+    "fieldKind": "REGULAR",
+    "fieldType": {
+      "id": 3,
+      "typeName": "Undefined",
+      "typeKind": "PRIMITIVE",
+      "primitiveEntityType": "URL_RESOURCE"
+    },
+    "fieldName": "size3x",
+    "label": "Size 3x",
+    "order": 2,
+    "prefixPath": "/uploads/icons/ios"
+>>>>>>> faculties
   }
 
   getFields(): any[] {

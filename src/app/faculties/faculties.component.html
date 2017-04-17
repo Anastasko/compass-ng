@@ -1,0 +1,30 @@
+<section [hidden]="showForm">
+  <md-toolbar>
+    <button md-raised-button color="accent"
+            (click)='add()'>
+      Add
+    </button>
+  </md-toolbar>
+
+  <div fxLayoutWrap>
+    <md-card *ngFor="let faculty of faculties; let i=index"
+             style="width: 200px; margin: 10px"  >
+      <img src="{{config.endpoint + faculty.icon.url}}"/>
+      <br />
+      {{faculty.name}}
+      <br />
+      <br />
+      <button md-raised-button color="primary"
+              (click)='update(faculty)'>
+        Update
+      </button>
+    </md-card>
+  </div>
+</section>
+
+<dynamic-form #facultyForm
+              [service]="facultyService"
+              [hidden]="!showForm"
+              (callback)="callback($event)">
+
+</dynamic-form>
