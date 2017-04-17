@@ -18,7 +18,7 @@ export class IosIconService extends Service<EntityIosIcon> {
     getFields(): any[] {
         return [
   {
-    "id": 11,
+    "id": 17,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 3,
@@ -32,7 +32,7 @@ export class IosIconService extends Service<EntityIosIcon> {
     "prefixPath": "/uploads/icons/ios"
   },
   {
-    "id": 12,
+    "id": 18,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 3,

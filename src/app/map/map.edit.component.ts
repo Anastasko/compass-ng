@@ -70,7 +70,6 @@ export class MapEditComponent implements OnInit, OnDestroy {
 
   constructor(private _mapService: MapService,
               private route: ActivatedRoute,
-              private ngZone: NgZone,
               private mapItemService: MapItemService) {
 
   }

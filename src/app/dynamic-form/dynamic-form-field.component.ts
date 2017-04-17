@@ -4,6 +4,7 @@ import {FieldViewModel} from "../common/model/field-view-model";
 import {ServiceFactory} from "../api/service-factory.service";
 import {Service} from "../common/service/service.service";
 import {UrlResourceService} from "../common/service/url-resource.service";
+import {UrlResource} from "../common/model/url-resource";
 
 @Component({
   selector: 'df-field',
@@ -17,9 +18,22 @@ export class DynamicFormFieldComponent implements OnInit {
   @Input() field: FieldViewModel;
   @Input() form: FormGroup;
 
+  sortBy(a: any, b: any, attr: string){
+    if (a[attr] > b[attr]) return 1;
+    if (a[attr] < b[attr]) return -1;
+    return 0;
+  }
+
   ngOnInit(): void {
     if (this.field.fieldType.typeKind == 'ENTITY') {
       this.getFieldService().findAll().then(data => {
+        data.sort((d1, d2) => {
+          if (d1.name && d2.name){
+            return this.sortBy(d1, d2, 'name');
+          } else {
+            return this.sortBy(d1, d2, 'id');
+          }
+        });
         this.entities = data;
       });
     } else if (this.field.fieldType.primitiveEntityType == 'URL_RESOURCE'){
@@ -67,4 +81,10 @@ export class DynamicFormFieldComponent implements OnInit {
       }
     }
   }
+
+  getResourceShortPath(resource: UrlResource){
+    let len = this.field.prefixPath.length;
+    return resource.url.substr(len+1);
+  }
+
 }

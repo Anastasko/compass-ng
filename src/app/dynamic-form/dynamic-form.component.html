@@ -4,21 +4,28 @@
       <h3> {{title}} </h3>
       <div *ngFor="let field of fields"
            class="form-row">
+
         <df-field
           [field]="field"
           [form]="form">
         </df-field>
+
       </div>
+
+
       <button md-raised-button
               color="primary"
               (click)="callback.emit(null)">Back
       </button>
+
+
       <button md-raised-button
               color="primary"
               type="submit"
               (click)="onSubmit()"
               [disabled]="!form.valid">Save
       </button>
+
     </md-card>
   </form>
 </div>

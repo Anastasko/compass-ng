@@ -1,38 +1,24 @@
 
 import { config } from '../../config';
 import { Injectable } from '@angular/core';
-import { EntityMapItem } from '../model/entity-map-item';
+import { EntityFaculty } from '../model/entity-faculty';
 import { Service } from "../../common/service/service.service";
 
 @Injectable()
-export class MapItemService extends Service<EntityMapItem> {
+export class FacultyService extends Service<EntityFaculty> {
     
-    getInstance(o: any): EntityMapItem {
-        return new EntityMapItem(o);
+    getInstance(o: any): EntityFaculty {
+        return new EntityFaculty(o);
     }
 
     prefix() {
-        return '/mapItem';
+        return '/faculty';
     }
 
     getFields(): any[] {
         return [
   {
-    "id": 32,
-    "fieldKind": "REGULAR",
-    "fieldType": {
-      "id": 9,
-      "typeName": "Map",
-      "typeKind": "ENTITY",
-      "primitiveEntityType": null
-    },
-    "fieldName": "owner",
-    "label": "Owner",
-    "order": 1,
-    "prefixPath": ""
-  },
-  {
-    "id": 42,
+    "id": 12,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 1,
@@ -42,62 +28,76 @@ export class MapItemService extends Service<EntityMapItem> {
     },
     "fieldName": "name",
     "label": "Name",
+    "order": 1,
+    "prefixPath": ""
+  },
+  {
+    "id": 13,
+    "fieldKind": "REGULAR",
+    "fieldType": {
+      "id": 1,
+      "typeName": "Undefined",
+      "typeKind": "PRIMITIVE",
+      "primitiveEntityType": "STRING"
+    },
+    "fieldName": "phone",
+    "label": "Phone",
     "order": 2,
     "prefixPath": ""
   },
   {
-    "id": 43,
+    "id": 14,
     "fieldKind": "REGULAR",
     "fieldType": {
-      "id": 2,
+      "id": 1,
       "typeName": "Undefined",
       "typeKind": "PRIMITIVE",
-      "primitiveEntityType": "DOUBLE"
+      "primitiveEntityType": "STRING"
     },
-    "fieldName": "x",
-    "label": "X",
+    "fieldName": "email",
+    "label": "Email",
     "order": 3,
     "prefixPath": ""
   },
   {
-    "id": 44,
+    "id": 15,
     "fieldKind": "REGULAR",
     "fieldType": {
-      "id": 2,
+      "id": 1,
       "typeName": "Undefined",
       "typeKind": "PRIMITIVE",
-      "primitiveEntityType": "DOUBLE"
+      "primitiveEntityType": "STRING"
     },
-    "fieldName": "y",
-    "label": "Y",
+    "fieldName": "website",
+    "label": "Website",
     "order": 4,
     "prefixPath": ""
   },
   {
-    "id": 45,
+    "id": 16,
     "fieldKind": "REGULAR",
     "fieldType": {
-      "id": 2,
+      "id": 3,
       "typeName": "Undefined",
       "typeKind": "PRIMITIVE",
-      "primitiveEntityType": "DOUBLE"
+      "primitiveEntityType": "URL_RESOURCE"
     },
-    "fieldName": "path",
-    "label": "Path",
+    "fieldName": "icon",
+    "label": "Icon",
     "order": 5,
-    "prefixPath": ""
+    "prefixPath": "/uploads/faculties"
   },
   {
-    "id": 46,
+    "id": 41,
     "fieldKind": "REGULAR",
     "fieldType": {
-      "id": 4,
-      "typeName": "ItemKind",
+      "id": 8,
+      "typeName": "CityItem",
       "typeKind": "ENTITY",
       "primitiveEntityType": null
     },
-    "fieldName": "kind",
-    "label": "Kind",
+    "fieldName": "owner",
+    "label": "Owner",
     "order": 6,
     "prefixPath": ""
   }

@@ -18,7 +18,7 @@ export class AndroidIconService extends Service<EntityAndroidIcon> {
     getFields(): any[] {
         return [
   {
-    "id": 13,
+    "id": 19,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 3,
@@ -32,7 +32,7 @@ export class AndroidIconService extends Service<EntityAndroidIcon> {
     "prefixPath": ""
   },
   {
-    "id": 14,
+    "id": 20,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 3,
@@ -46,7 +46,7 @@ export class AndroidIconService extends Service<EntityAndroidIcon> {
     "prefixPath": ""
   },
   {
-    "id": 15,
+    "id": 21,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 3,
@@ -60,7 +60,7 @@ export class AndroidIconService extends Service<EntityAndroidIcon> {
     "prefixPath": ""
   },
   {
-    "id": 16,
+    "id": 22,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 3,
@@ -74,7 +74,7 @@ export class AndroidIconService extends Service<EntityAndroidIcon> {
     "prefixPath": ""
   },
   {
-    "id": 17,
+    "id": 23,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 3,

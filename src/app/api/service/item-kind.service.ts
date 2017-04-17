@@ -18,7 +18,7 @@ export class ItemKindService extends Service<EntityItemKind> {
     getFields(): any[] {
         return [
   {
-    "id": 18,
+    "id": 24,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 1,
@@ -32,7 +32,7 @@ export class ItemKindService extends Service<EntityItemKind> {
     "prefixPath": ""
   },
   {
-    "id": 19,
+    "id": 25,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 5,
@@ -46,7 +46,7 @@ export class ItemKindService extends Service<EntityItemKind> {
     "prefixPath": ""
   },
   {
-    "id": 20,
+    "id": 26,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 5,
@@ -60,7 +60,7 @@ export class ItemKindService extends Service<EntityItemKind> {
     "prefixPath": ""
   },
   {
-    "id": 21,
+    "id": 27,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 6,
@@ -74,7 +74,7 @@ export class ItemKindService extends Service<EntityItemKind> {
     "prefixPath": ""
   },
   {
-    "id": 22,
+    "id": 28,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 6,

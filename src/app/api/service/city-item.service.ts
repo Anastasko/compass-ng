@@ -19,10 +19,14 @@ export class CityItemService extends Service<EntityCityItem> {
         return this.getRequest('/' + owner.id + '/maps');
     }
 
+    findFacultiesOf(owner: EntityCityItem){
+        return this.getRequest('/' + owner.id + '/faculties');
+    }
+
     getFields(): any[] {
         return [
   {
-    "id": 27,
+    "id": 33,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 1,
@@ -36,7 +40,7 @@ export class CityItemService extends Service<EntityCityItem> {
     "prefixPath": ""
   },
   {
-    "id": 28,
+    "id": 34,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 2,
@@ -50,7 +54,7 @@ export class CityItemService extends Service<EntityCityItem> {
     "prefixPath": ""
   },
   {
-    "id": 29,
+    "id": 35,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 2,
@@ -64,7 +68,7 @@ export class CityItemService extends Service<EntityCityItem> {
     "prefixPath": ""
   },
   {
-    "id": 30,
+    "id": 36,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 1,
@@ -78,7 +82,7 @@ export class CityItemService extends Service<EntityCityItem> {
     "prefixPath": ""
   },
   {
-    "id": 31,
+    "id": 37,
     "fieldKind": "COLLECTION",
     "fieldType": {
       "id": 9,
@@ -92,7 +96,7 @@ export class CityItemService extends Service<EntityCityItem> {
     "prefixPath": ""
   },
   {
-    "id": 32,
+    "id": 38,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 4,
@@ -106,7 +110,21 @@ export class CityItemService extends Service<EntityCityItem> {
     "prefixPath": ""
   },
   {
-    "id": 40,
+    "id": 39,
+    "fieldKind": "COLLECTION",
+    "fieldType": {
+      "id": 11,
+      "typeName": "Faculty",
+      "typeKind": "ENTITY",
+      "primitiveEntityType": null
+    },
+    "fieldName": "faculties",
+    "label": "Faculties",
+    "order": 7,
+    "prefixPath": ""
+  },
+  {
+    "id": 48,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 7,
@@ -116,7 +134,7 @@ export class CityItemService extends Service<EntityCityItem> {
     },
     "fieldName": "owner",
     "label": "Owner",
-    "order": 7,
+    "order": 8,
     "prefixPath": ""
   }
 ];

@@ -32,6 +32,8 @@ import {UrlResourceService} from "./common/service/url-resource.service";
 import {MapItemService} from "./api/service/map-item.service";
 import {IosIconsComponent} from "./icons/ios-icons.component";
 import {ItemKindsComponent} from "./item-kinds/item-kinds.component";
+import {FacultyService} from "./api/service/faculty.service";
+import {FacultiesComponent} from "./faculties/faculties.component";
 
 @NgModule({
   imports: [
@@ -54,7 +56,8 @@ import {ItemKindsComponent} from "./item-kinds/item-kinds.component";
     DynamicFormFieldComponent,
     InfoWindowComponent,
     IosIconsComponent,
-    ItemKindsComponent
+    ItemKindsComponent,
+    FacultiesComponent
   ],
   bootstrap: [AppComponent],
   providers: [AuthGuard, AuthService,
@@ -66,7 +69,8 @@ import {ItemKindsComponent} from "./item-kinds/item-kinds.component";
     CityItemService,
     MapService,
     UrlResourceService,
-    MapItemService
+    MapItemService,
+    FacultyService
   ]
 })
 export class AppModule {

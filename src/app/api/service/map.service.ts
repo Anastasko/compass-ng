@@ -22,7 +22,7 @@ export class MapService extends Service<EntityMap> {
     getFields(): any[] {
         return [
   {
-    "id": 23,
+    "id": 29,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 3,
@@ -36,7 +36,7 @@ export class MapService extends Service<EntityMap> {
     "prefixPath": "/uploads/maps"
   },
   {
-    "id": 24,
+    "id": 30,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 0,
@@ -50,7 +50,7 @@ export class MapService extends Service<EntityMap> {
     "prefixPath": ""
   },
   {
-    "id": 25,
+    "id": 31,
     "fieldKind": "COLLECTION",
     "fieldType": {
       "id": 10,
@@ -64,7 +64,7 @@ export class MapService extends Service<EntityMap> {
     "prefixPath": ""
   },
   {
-    "id": 33,
+    "id": 40,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 8,

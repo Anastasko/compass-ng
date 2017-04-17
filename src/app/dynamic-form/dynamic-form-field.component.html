@@ -36,11 +36,12 @@
                [id]="field.fieldName">
       <md-option *ngFor="let entity of entities"
                  [value]="entity">
-        {{entity.url}}
+        {{getResourceShortPath(entity)}}
       </md-option>
     </md-select>
     <br />
 
   </div>
+
 
 </div>
