@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './_guards/auth-guard.service';
 import { IosIconsComponent } from "./icons/ios-icons.component";
 import { ItemKindsComponent } from "./item-kinds/item-kinds.component";
+import {FacultiesComponent} from "./faculties/faculties.component";
 
 export const ROUTES: Routes = [
   { path: '', component: IndexComponent },

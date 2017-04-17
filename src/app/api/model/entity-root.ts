@@ -7,16 +7,16 @@ import { EntityCityItem } from "../model/entity-city-item";
 export class EntityRoot extends Entity {
 
 
-  constructor(options: any) {
-    super(options);
-  }
+    constructor(options: any){
+        super(options);
+    }
 
-  getService() {
-    return ServiceLocator.injector.get(RootService);
-  }
+    getService(){
+        return ServiceLocator.injector.get(RootService);
+    }
 
-  getCityItems(): Promise<EntityCityItem[]> {
-    return this.getService().findCityItemsOf(this);
-  }
+    getCityItems(): Promise<EntityCityItem[]> {
+        return this.getService().findCityItemsOf(this);
+    }
 
 }

@@ -6,38 +6,32 @@ import { EntityMap } from "../model/entity-map";import { EntityFaculty } from ".
 
 export class EntityCityItem extends Entity {
 
-  name: string;
-  longitude: number;
-  latitude: number;
-  address: string;
-  kind: Entity;
-  owner: Entity;
+    name: string;
+    longitude: number;
+    latitude: number;
+    address: string;
+    kind: Entity;
+    owner: Entity;
 
-  constructor(options: any) {
-    super(options);
-    this.name = options.name;
-    this.longitude = options.longitude;
-    this.latitude = options.latitude;
-    this.address = options.address;
-    this.kind = new Entity(options.kind);
-    this.owner = new Entity(options.owner);
-  }
+    constructor(options: any){
+        super(options);
+        this.name = options.name;
+        this.longitude = options.longitude;
+        this.latitude = options.latitude;
+        this.address = options.address;
+        this.kind = new Entity(options.kind);
+        this.owner = new Entity(options.owner);
+    }
 
-  getService() {
-    return ServiceLocator.injector.get(CityItemService);
-  }
+    getService(){
+        return ServiceLocator.injector.get(CityItemService);
+    }
 
-<<<<<<< HEAD
-  getMaps(): Promise<EntityMap[]> {
-    return this.getService().findMapsOf(this);
-  }
-=======
     getMaps(): Promise<EntityMap[]> {
         return this.getService().findMapsOf(this);
     }
     getFaculties(): Promise<EntityFaculty[]> {
         return this.getService().findFacultiesOf(this);
     }
->>>>>>> faculties
 
 }

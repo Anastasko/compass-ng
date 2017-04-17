@@ -1,0 +1,11 @@
+.map-list-item:hover {
+  background: #eeeeee;
+}
+
+.map-list-item {
+  cursor: pointer;
+}
+
+.map-list-item.active {
+  background: #ccc;
+}

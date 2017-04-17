@@ -1,46 +1,16 @@
-import { Component, Input, OnInit, OnDestroy, NgZone, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MapService } from '../api/service/map.service';
 import { EntityMap } from  '../api/model/entity-map';
-import { Routes, ActivatedRoute } from '@angular/router';
-import { Http, Response } from '@angular/http';
+import { ActivatedRoute } from '@angular/router';
 import * as d3 from 'd3';
 import { config } from "../config";
-import { Entity } from "../common/model/entity";
 import { EntityMapItem } from "../api/model/entity-map-item";
 import { MapItemService } from "../api/service/map-item.service";
+import {MapItemsListComponent} from "./map-item-list/map-items-list.component";
 
 @Component({
   selector: 'map',
-  template: `
-        <div [hidden]="showForm">
-          Map: #{{map?.id}}  {{status}}
-          <div id="map" 
-          (click)="clicked($event)"
-          style="height: calc(100vh - 110px); border: 1px solid black">
-          
-          </div>
-          <div id="map_item_menu" [style.display]="hideMenu ? 'none' : 'block'">
-            <button (click)="edit()">
-              edit
-            </button>
-          </div>
-          <div id="map_menu" [style.display]="hideMapMenu ? 'none' : 'block'">
-            <button (click)="create()">
-              create
-            </button>
-          </div>
-          <div class="tooltip" style="display: none">
-            tooltip
-          </div>
-        </div>
-        
-        <dynamic-form #mapItemForm
-              [service]="mapItemService"
-              [hidden]="!showForm"
-              (callback)="callback($event)">
-
-        </dynamic-form>
-      `,
+  templateUrl: `./map.edit.component.html`,
   providers: [MapService],
   styleUrls: [
     'map-item-tooltip.css'
@@ -48,10 +18,11 @@ import { MapItemService } from "../api/service/map-item.service";
 })
 export class MapEditComponent implements OnInit, OnDestroy {
 
-  @Input()
   map: EntityMap;
 
   @ViewChild('mapItemForm') mapItemForm: any;
+
+  @ViewChild(MapItemsListComponent) mapItemsListComponent: MapItemsListComponent;
 
   status: string = "Loading ...";
 
@@ -98,12 +69,12 @@ export class MapEditComponent implements OnInit, OnDestroy {
   }
 
   makeSelected(el){
-    el.setAttribute('was-fill', el.getAttribute('fill'));
-    el.setAttribute('fill', 'blue');
+    el.setAttribute('was-fill', el.style.fill);
+    el.style.fill = 'blue';
   }
 
   makeUnselected(el){
-    el.setAttribute('fill', el.getAttribute('was-fill'));
+    el.style.fill = el.getAttribute('was-fill');
     el.setAttribute('was-fill', '');
   }
 
@@ -120,6 +91,7 @@ export class MapEditComponent implements OnInit, OnDestroy {
       this._mapService.findOne(this.owner.id)
         .then(map => {
           this.map = map;
+          this.mapItemsListComponent.init(this.map);
           this.initMap();
         });
     });

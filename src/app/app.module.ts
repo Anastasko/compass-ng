@@ -34,6 +34,7 @@ import { IosIconsComponent } from "./icons/ios-icons.component";
 import { ItemKindsComponent } from "./item-kinds/item-kinds.component";
 import {FacultyService} from "./api/service/faculty.service";
 import {FacultiesComponent} from "./faculties/faculties.component";
+import {MapItemsListComponent} from "./map/map-item-list/map-items-list.component";
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import {FacultiesComponent} from "./faculties/faculties.component";
     InfoWindowComponent,
     IosIconsComponent,
     ItemKindsComponent,
-    FacultiesComponent
+    FacultiesComponent,
+    MapItemsListComponent
   ],
   bootstrap: [AppComponent],
   providers: [

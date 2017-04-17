@@ -1,0 +1,45 @@
+<div fxLayout="row" fxLayoutAlign="start start" >
+
+<div fxFlex="calc(100vh - 100px)">
+
+
+    <div [hidden]="showForm">
+      Map: #{{map?.id}}  {{status}}
+      <div id="map"
+           (click)="clicked($event)"
+           style="height: calc(100vh - 110px); border: 1px solid black">
+
+      </div>
+      <div id="map_item_menu" [style.display]="hideMenu ? 'none' : 'block'">
+        <button (click)="edit()">
+          edit
+        </button>
+      </div>
+      <div id="map_menu" [style.display]="hideMapMenu ? 'none' : 'block'">
+        <button (click)="create()">
+          create
+        </button>
+      </div>
+      <div class="tooltip" style="display: none">
+        tooltip
+      </div>
+
+    </div>
+
+    <dynamic-form #mapItemForm
+                  [service]="mapItemService"
+                  [hidden]="!showForm"
+                  (callback)="callback($event)">
+
+    </dynamic-form>
+
+  </div>
+
+  <div fxFlex="100px" style="height: calc(100vh - 95px); overflow-y: scroll">
+
+    <map-items-list>
+    </map-items-list>
+
+  </div>
+
+</div>

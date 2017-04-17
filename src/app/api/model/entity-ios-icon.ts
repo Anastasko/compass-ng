@@ -6,18 +6,18 @@ import { IosIconService } from "../service/ios-icon.service";
 
 export class EntityIosIcon extends Entity {
 
-  size2x: UrlResource;
-  size3x: UrlResource;
+    size2x: UrlResource;
+    size3x: UrlResource;
 
-  constructor(options: any) {
-    super(options);
-    this.size2x = options.size2x;
-    this.size3x = options.size3x;
-  }
+    constructor(options: any){
+        super(options);
+        this.size2x = options.size2x;
+        this.size3x = options.size3x;
+    }
 
-  getService() {
-    return ServiceLocator.injector.get(IosIconService);
-  }
+    getService(){
+        return ServiceLocator.injector.get(IosIconService);
+    }
 
 
 }
