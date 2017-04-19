@@ -37,7 +37,9 @@
 
   <div fxFlex="100px" style="height: calc(100vh - 95px); overflow-y: scroll">
 
-    <map-items-list>
+    <map-items-list [rooms]="mapItems"
+                    (activeChanged)="onRoomSelected($event)"
+                    (editClicked)="update($event)">
     </map-items-list>
 
   </div>

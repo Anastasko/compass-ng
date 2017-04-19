@@ -7,6 +7,7 @@ import { config } from "../config";
 import { EntityMapItem } from "../api/model/entity-map-item";
 import { MapItemService } from "../api/service/map-item.service";
 import {MapItemsListComponent} from "./map-item-list/map-items-list.component";
+import {utils} from '../common/utils';
 
 @Component({
   selector: 'map',
@@ -50,22 +51,72 @@ export class MapEditComponent implements OnInit, OnDestroy {
 
   }
 
+  callback(item){
+    if (item){
+      this.mapItems.push(item);
+    }
+    this.showForm = false;
+  }
+
+  update(item: EntityMapItem) {
+    this.showForm = true;
+    this.mapItemForm.render(item);
+  }
+
+  add() {
+    this.update(new EntityMapItem({}));
+  }
+
+  edit() {
+    let mapItem = this.mapItems[this.contextMenuItemIndex];
+    this.update(mapItem);
+  }
+
+  onRoomSelected(room){
+    this.handleSelected(room);
+  }
+
   clicked(event){
     let name = event.target.nodeName;
     if (name === 'path') {
       let id = event.target.id;
-      let el = event.srcElement;
-      if (this.isSelected(el)){
-        this.prevPath = null;
-        this.makeUnselected(el);
+      let managed = this.findByRoom(id.substr(4))
+      if (!managed){
+        alert('can not be selected yet, reason: entity is not managed in db.');
       } else {
-        if (this.prevPath) {
-          this.makeUnselected(this.prevPath);
-        }
-        this.prevPath = el;
-        this.makeSelected(el);
+        this.handleSelected(managed);
       }
     }
+  }
+
+  handleSelected(item: EntityMapItem){
+    let path = 'path' + (item && item.room);
+    let el = document.getElementById(path);
+    if (this.prevPath) {
+      this.makeUnselected(this.prevPath);
+    }
+    if (item != null && el == null){
+      alert('Will not be hightlited. Path #' + path + ' is not present in svg.');
+      item = null;
+    }
+    if (item == null || this.prevPath == el){
+      this.prevPath = null;
+      this.mapItemsListComponent.setActive(null, true);
+    } else {
+      this.prevPath = el;
+      this.makeSelected(el);
+      this.mapItemsListComponent.setActive(item, true);
+    }
+  }
+
+  private findByRoom(room: string) {
+    let res = null;
+    this.mapItems.forEach(item => {
+      if (item.room == room){
+        res = item;
+      }
+    });
+    return res;
   }
 
   makeSelected(el){
@@ -91,28 +142,13 @@ export class MapEditComponent implements OnInit, OnDestroy {
       this._mapService.findOne(this.owner.id)
         .then(map => {
           this.map = map;
-          this.mapItemsListComponent.init(this.map);
-          this.initMap();
+          this.map.getMapItems().then((items: EntityMapItem[]) => {
+            items.sort(utils.attrComparator('room'));
+            this.mapItems = items;
+            this.initMap();
+          });
         });
     });
-  }
-
-  create() {
-    let mapItem = new EntityMapItem({
-      owner: { id: this.owner.id }
-    });
-    this.mapItemForm.render(mapItem);
-    this.showForm = true;
-  }
-
-  edit() {
-    let mapItem = this.mapItems[this.contextMenuItemIndex];
-    this.mapItemForm.render(mapItem);
-    this.showForm = true;
-  }
-
-  callback(mapItem: EntityMapItem) {
-    this.showForm = false;
   }
 
   ngOnDestroy() {
@@ -144,10 +180,7 @@ export class MapEditComponent implements OnInit, OnDestroy {
           .getElementsByTagName("svg")[0];
         let node: any = that.svg.node();
         node.appendChild(svgNode);
-        that.owner.getMapItems().then((mapItems: EntityMapItem[]) => {
-          that.mapItems = mapItems;
-          that.initMapItems();
-        });
+        that.initMapItems();
         that.status = "OK";
       });
     d3.select('#map').on('click', () => {
@@ -226,4 +259,5 @@ export class MapEditComponent implements OnInit, OnDestroy {
     this.hideMenu = true;
     this.hideMapMenu = true;
   }
+
 }

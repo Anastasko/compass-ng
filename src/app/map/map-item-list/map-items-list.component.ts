@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, NgZone, ViewChild } from '@angular/core';
+import {Component, Input, OnInit, OnDestroy, NgZone, ViewChild, Output, EventEmitter} from '@angular/core';
 import { MapService } from '../../api/service/map.service';
 import { EntityMap } from  '../../api/model/entity-map';
 import { Routes, ActivatedRoute } from '@angular/router';
@@ -8,7 +8,6 @@ import { config } from "../../config";
 import { Entity } from "../../common/model/entity";
 import { EntityMapItem } from "../../api/model/entity-map-item";
 import { MapItemService } from "../../api/service/map-item.service";
-import {utils} from '../../common/utils';
 
 @Component({
   selector: 'map-items-list',
@@ -20,13 +19,34 @@ import {utils} from '../../common/utils';
 })
 export class MapItemsListComponent {
 
+  @Input()
   rooms: EntityMapItem[] = [];
 
-  init(map: EntityMap) {
-    map.getMapItems().then(items => {
-      items.sort(utils.attrComparator('room'));
-      this.rooms = items;
-    });
+  @Output()
+  activeChanged = new EventEmitter();
+
+  @Output()
+  editClicked = new EventEmitter();
+
+  active: EntityMapItem;
+
+  handleSelected(item: EntityMapItem){
+    if (this.active && this.active.id == item.id){
+      this.setActive(null, false);
+    } else {
+      this.setActive(item, false);
+    }
+  }
+
+  setActive(item: EntityMapItem, silent: boolean) {
+    this.active = item;
+    if (!silent){
+      this.activeChanged.emit(this.active);
+    }
+  }
+
+  edit(item: EntityMapItem){
+    this.editClicked.emit(item);
   }
 
 }

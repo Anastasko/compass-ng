@@ -21,10 +21,7 @@ export class FacultiesComponent {
   @ViewChild('facultyForm') facultyForm: any;
   private showForm: boolean = false;
 
-  private sub: any;
-
-  constructor(private facultyService: FacultyService,
-              private route: ActivatedRoute) {
+  constructor(private facultyService: FacultyService) {
 
   }
 

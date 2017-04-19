@@ -1,6 +1,10 @@
 <md-list>
-  <md-list-item *ngFor="let room of rooms" class="map-list-item">
+  <md-list-item *ngFor="let room of rooms"
+                class="map-list-item"
+                [class.active]="room.id == active?.id"
+                (click)="handleSelected(room)">
     <h1 md-line><b>{{room.room}}</b></h1>
+    <md-icon (click)="edit(room)">edit</md-icon>
     <!--<p md-line> {{room.name}} </p>-->
   </md-list-item>
 </md-list>

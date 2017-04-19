@@ -2,6 +2,14 @@
   background: #eeeeee;
 }
 
+.map-list-item md-icon:hover {
+  color: black;
+}
+
+.map-list-item md-icon {
+  color: #bbb;
+}
+
 .map-list-item {
   cursor: pointer;
 }
