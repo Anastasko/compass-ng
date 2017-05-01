@@ -8,6 +8,10 @@ import { EntityMapItem } from "../api/model/entity-map-item";
 import { MapItemService } from "../api/service/map-item.service";
 import {MapItemsListComponent} from "./map-item-list/map-items-list.component";
 import {utils} from '../common/utils';
+import {Geometry} from "../common/utils/geometry";
+import {Polygon} from "../common/model/geometry/polygon";
+import {Graph} from "../common/utils/graph/graph";
+import {Segment} from "../common/model/geometry/segment";
 
 @Component({
   selector: 'map',
@@ -44,6 +48,7 @@ export class MapEditComponent implements OnInit, OnDestroy {
   };
   contextMenuItemIndex: number;
   prevPath: any;
+  private prevEl: any;
 
   constructor(private _mapService: MapService,
               private route: ActivatedRoute,
@@ -76,11 +81,20 @@ export class MapEditComponent implements OnInit, OnDestroy {
     this.handleSelected(room);
   }
 
+  toSVGpath(item: EntityMapItem){
+    return 'path' + (item && item.room && item.room.replace('а', 'a'));
+  }
+
+  fromSVGpath(id: string){
+    return id.substr(4).replace('a','а');
+  }
+
   clicked(event){
     let name = event.target.nodeName;
     if (name === 'path') {
       let id = event.target.id;
-      let managed = this.findByRoom(id.substr(4))
+      let room = this.fromSVGpath(id);
+      let managed = this.findByRoom(room);
       if (!managed){
         alert('can not be selected yet, reason: entity is not managed in db.');
       } else {
@@ -89,8 +103,59 @@ export class MapEditComponent implements OnInit, OnDestroy {
     }
   }
 
+  pointDebugText(x: number, y: number, str: string){
+    let html = `<text x="${x}" y="${y}" font-family="Verdana" font-size="8" fill="blue">${str}</text>`;
+    document.getElementById('labels').innerHTML += (html);
+  }
+
+  buildRoute(el: any){
+
+    if (!this.prevEl){
+      this.prevEl = el;
+      return;
+    }
+
+    let children = document.getElementById('routes').children;
+    let g = new Graph();
+    for(let c1 = 0; c1 < children.length; ++c1){
+      let route = children[c1];
+      let d = route.getAttribute('d');
+      let r1 = Geometry.svgPathToPoints(d);
+      console.log(d);
+      console.log('(' + r1[0].x +',' + r1[0].y + ") - (" + r1[1].x + ',' + r1[1].y + ')');
+      let seg = new Segment(r1[0], r1[1], route.id);
+      g.addEdge(seg);
+    }
+    g.vertices.forEach((v,k) => {
+      // this.pointDebugText(v.x, v.y, ''+k);
+    });
+
+    let polygon1 = new Polygon(Geometry.svgPathToPoints(this.prevEl.getAttribute('d')));
+    let polygon2 = new Polygon(Geometry.svgPathToPoints(el.getAttribute('d')));
+
+    console.log(g.toString());
+    let start = g.nearestVertice(polygon1);
+    let fin = g.nearestVertice(polygon2);
+    console.log('A='+start+' B='+fin);
+    let route = g.dijkstra(start, fin);
+    console.log(route);
+    for(let c1 = 0; c1 < children.length; ++c1) {
+      let rout : Element = children.item(c1);
+      document.getElementById(rout.id).style.opacity = '0';
+    }
+    document.getElementById('routes').style.display = 'inline';
+    route.forEach((r,ind) => {
+      let routeEl = document.getElementById(r.id);
+      setTimeout(() => {
+        routeEl.style.opacity = '1';
+      }, ind*150);
+    });
+
+    this.prevEl = el;
+  }
+
   handleSelected(item: EntityMapItem){
-    let path = 'path' + (item && item.room);
+    let path = this.toSVGpath(item);
     let el = document.getElementById(path);
     if (this.prevPath) {
       this.makeUnselected(this.prevPath);
@@ -99,6 +164,9 @@ export class MapEditComponent implements OnInit, OnDestroy {
       alert('Will not be hightlited. Path #' + path + ' is not present in svg.');
       item = null;
     }
+
+    this.buildRoute(el);
+
     if (item == null || this.prevPath == el){
       this.prevPath = null;
       this.mapItemsListComponent.setActive(null, true);
