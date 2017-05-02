@@ -30,4 +30,21 @@ export class Polygon {
     return res;
   }
 
+  center(): Point {
+    if (this.points.length == 0){
+      throw "points.length == 0";
+    }
+    let l = Infinity;
+    let d = Infinity;
+    let r = -Infinity;
+    let u = -Infinity;
+    this.points.forEach(p => {
+      l = Math.min(l, p.x);
+      d = Math.min(d, p.y);
+      r = Math.max(r, p.x);
+      u = Math.max(u, p.y);
+    });
+    return new Point((l+r)/2, (u+d)/2);
+  }
+
 }

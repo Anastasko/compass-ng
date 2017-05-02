@@ -12,6 +12,7 @@ import {Geometry} from "../common/utils/geometry";
 import {Polygon} from "../common/model/geometry/polygon";
 import {Graph} from "../common/utils/graph/graph";
 import {Segment} from "../common/model/geometry/segment";
+import {Point} from "../common/model/geometry/point";
 
 @Component({
   selector: 'map',
@@ -81,12 +82,29 @@ export class MapEditComponent implements OnInit, OnDestroy {
     this.handleSelected(room);
   }
 
-  toSVGpath(item: EntityMapItem){
-    return 'path' + (item && item.room && item.room.replace('а', 'a'));
+  enUkLetters = [
+    {en: 'a', uk: 'а'},
+    {en: 'b', uk: 'б'},
+    {en: 'v', uk: 'в'},
+    {en: 'g', uk: 'г'},
+    {en: 'd', uk: 'д'},
+    {en: 'k', uk: 'к'}
+  ];
+
+  toSVGpath(room: string){
+    let res = room;
+    this.enUkLetters.forEach(l => {
+      res = res.replace(l.uk, l.en);
+    });
+    return 'path' + res;
   }
 
   fromSVGpath(id: string){
-    return id.substr(4).replace('a','а');
+    let res = id.substr(4);
+    this.enUkLetters.forEach(l => {
+      res = res.replace(l.en, l.uk);
+    });
+    return res;
   }
 
   clicked(event){
@@ -96,16 +114,30 @@ export class MapEditComponent implements OnInit, OnDestroy {
       let room = this.fromSVGpath(id);
       let managed = this.findByRoom(room);
       if (!managed){
-        alert('can not be selected yet, reason: entity is not managed in db.');
+        let newItem = new EntityMapItem({
+          room: this.fromSVGpath(id),
+          owner: {
+            id: this.owner.id
+          }
+        });
+        this.update(newItem);
       } else {
         this.handleSelected(managed);
       }
     }
   }
 
-  pointDebugText(x: number, y: number, str: string){
-    let html = `<text x="${x}" y="${y}" font-family="Verdana" font-size="8" fill="blue">${str}</text>`;
+  printText(p: Point, str: string, fontSize: number){
+    let html = `<text x="${p.x}" y="${p.y}" font-family="Verdana" font-size="${fontSize}" fill="blue">${str}</text>`;
     document.getElementById('labels').innerHTML += (html);
+  }
+
+  printDebugText(p: Point, str: string) {
+    this.printText(p, str, 8);
+  }
+
+  isDebugMode(){
+    return localStorage.getItem('debug') == 'true';
   }
 
   buildRoute(el: any){
@@ -126,9 +158,12 @@ export class MapEditComponent implements OnInit, OnDestroy {
       let seg = new Segment(r1[0], r1[1], route.id);
       g.addEdge(seg);
     }
-    g.vertices.forEach((v,k) => {
-      // this.pointDebugText(v.x, v.y, ''+k);
-    });
+
+    if (this.isDebugMode()){
+      g.vertices.forEach((v,k) => {
+        this.printDebugText(v, ''+k);
+      });
+    }
 
     let polygon1 = new Polygon(Geometry.svgPathToPoints(this.prevEl.getAttribute('d')));
     let polygon2 = new Polygon(Geometry.svgPathToPoints(el.getAttribute('d')));
@@ -141,21 +176,21 @@ export class MapEditComponent implements OnInit, OnDestroy {
     console.log(route);
     for(let c1 = 0; c1 < children.length; ++c1) {
       let rout : Element = children.item(c1);
-      document.getElementById(rout.id).style.opacity = '0';
+      document.getElementById(rout.id).style.opacity = this.isDebugMode() ? '0.3' : '0';
     }
     document.getElementById('routes').style.display = 'inline';
     route.forEach((r,ind) => {
       let routeEl = document.getElementById(r.id);
-      setTimeout(() => {
+       setTimeout(() => {
         routeEl.style.opacity = '1';
-      }, ind*150);
+      }, ind*100);
     });
 
     this.prevEl = el;
   }
 
   handleSelected(item: EntityMapItem){
-    let path = this.toSVGpath(item);
+    let path = this.toSVGpath(item.room);
     let el = document.getElementById(path);
     if (this.prevPath) {
       this.makeUnselected(this.prevPath);
@@ -189,7 +224,7 @@ export class MapEditComponent implements OnInit, OnDestroy {
 
   makeSelected(el){
     el.setAttribute('was-fill', el.style.fill);
-    el.style.fill = 'blue';
+    el.style.fill = '#87CEFA';
   }
 
   makeUnselected(el){
@@ -249,6 +284,7 @@ export class MapEditComponent implements OnInit, OnDestroy {
         let node: any = that.svg.node();
         node.appendChild(svgNode);
         that.initMapItems();
+        that.initRoomNumbers();
         that.status = "OK";
       });
     d3.select('#map').on('click', () => {
@@ -326,6 +362,29 @@ export class MapEditComponent implements OnInit, OnDestroy {
     this.hideTooltip();
     this.hideMenu = true;
     this.hideMapMenu = true;
+  }
+
+  getRoomsFromSvg(): Element[] {
+    let res = [];
+    let rooms = document.getElementById('rooms').children;
+    for(let ind = 0; ind < rooms.length; ++ind){
+      let room = rooms[ind];
+      res.push(room);
+    }
+    return res;
+  }
+
+  initRoomNumbers() {
+    this.getRoomsFromSvg().forEach(r => {
+      let roomNumber = this.fromSVGpath(r.id);
+      let room = this.findByRoom(roomNumber);
+      if (room != null){
+        let polygon = new Polygon(Geometry.svgPathToPoints(r.getAttribute('d')));
+        let c = polygon.center();
+        c.x -= 15;
+        this.printText(c, roomNumber, 14);
+      }
+    })
   }
 
 }

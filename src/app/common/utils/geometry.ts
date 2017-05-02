@@ -27,15 +27,28 @@ export class Geometry {
     let prevP = points.length ? points[points.length-1] : new Point(0,0);
     let point : Point;
     if (letter == 'v'){
-      let prevX = isLowercase ? 0 : prevP.x;
-      point = new Point(prevX, arr.reduce((a,b) => (+a)+(+b), 0));
-      Geometry.addPoint(points, isLowercase, point);
+      if (isLowercase) {
+        point = new Point(0, arr.reduce((a, b) => (+a) + (+b), 0));
+        Geometry.addPoint(points, isLowercase, point);
+      } else {
+        for(let i=0; i<arr.length; i++) {
+          point = new Point(prevP.x, +arr[i]);
+          Geometry.addPoint(points, isLowercase, point);
+        }
+      }
     } else if (letter == 'h') {
-      let prevY = isLowercase ? 0 : prevP.y;
-      point = new Point(arr.reduce((a,b) => (+a)+(+b), 0), prevY);
-      Geometry.addPoint(points, isLowercase, point);
+      if (isLowercase){
+        point = new Point(arr.reduce((a,b) => (+a)+(+b), 0), 0);
+        Geometry.addPoint(points, isLowercase, point);
+      } else {
+        for(let i=0; i<arr.length; i++) {
+          point = new Point(+arr[i], prevP.y);
+          Geometry.addPoint(points, isLowercase, point);
+        }
+      }
     } else if (letter == 'c') {
       point = new Point(+arr[arr.length-2], +arr[arr.length-1]);
+      Geometry.addPoint(points, isLowercase,point);
     } else if (letter == 'm' || letter == 'l') {
       for(let i=0; i<arr.length-1; i+=2) {
         point = new Point(+arr[i], +arr[i + 1]);
@@ -61,7 +74,6 @@ export class Geometry {
       arr.shift();
       Geometry.addPoints(points, letter, arr);
     }
-    // console.log(points);
     return points;
   }
 
