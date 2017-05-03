@@ -108,19 +108,22 @@ export class MapEditComponent implements OnInit, OnDestroy {
   }
 
   clicked(event){
-    let name = event.target.nodeName;
+    let el = event.target;
+    let name = el.nodeName;
     if (name === 'path') {
-      let id = event.target.id;
+      let id = el.id;
       let room = this.fromSVGpath(id);
       let managed = this.findByRoom(room);
       if (!managed){
-        let newItem = new EntityMapItem({
-          room: this.fromSVGpath(id),
-          owner: {
-            id: this.owner.id
-          }
-        });
-        this.update(newItem);
+        if (el.parentElement.id == 'rooms'){
+          let newItem = new EntityMapItem({
+            room: this.fromSVGpath(id),
+            owner: {
+              id: this.owner.id
+            }
+          });
+          this.update(newItem);
+        }
       } else {
         this.handleSelected(managed);
       }
@@ -153,8 +156,10 @@ export class MapEditComponent implements OnInit, OnDestroy {
       let route = children[c1];
       let d = route.getAttribute('d');
       let r1 = Geometry.svgPathToPoints(d);
-      console.log(d);
-      console.log('(' + r1[0].x +',' + r1[0].y + ") - (" + r1[1].x + ',' + r1[1].y + ')');
+      if (this.isDebugMode()) {
+        console.log(d);
+        console.log('(' + r1[0].x + ',' + r1[0].y + ") - (" + r1[1].x + ',' + r1[1].y + ')');
+      }
       let seg = new Segment(r1[0], r1[1], route.id);
       g.addEdge(seg);
     }
@@ -168,12 +173,20 @@ export class MapEditComponent implements OnInit, OnDestroy {
     let polygon1 = new Polygon(Geometry.svgPathToPoints(this.prevEl.getAttribute('d')));
     let polygon2 = new Polygon(Geometry.svgPathToPoints(el.getAttribute('d')));
 
-    console.log(g.toString());
+    this.prevEl = el;
+
+    if (this.isDebugMode()) {
+      console.log(g.toString());
+    }
     let start = g.nearestVertice(polygon1);
     let fin = g.nearestVertice(polygon2);
     console.log('A='+start+' B='+fin);
     let route = g.dijkstra(start, fin);
     console.log(route);
+    if (route === undefined){
+      alert("route not found! try debug mode.");
+      return;
+    }
     for(let c1 = 0; c1 < children.length; ++c1) {
       let rout : Element = children.item(c1);
       document.getElementById(rout.id).style.opacity = this.isDebugMode() ? '0.3' : '0';
@@ -186,7 +199,6 @@ export class MapEditComponent implements OnInit, OnDestroy {
       }, ind*100);
     });
 
-    this.prevEl = el;
   }
 
   handleSelected(item: EntityMapItem){
@@ -200,7 +212,7 @@ export class MapEditComponent implements OnInit, OnDestroy {
       item = null;
     }
 
-    this.buildRoute(el);
+    if (item) this.buildRoute(el);
 
     if (item == null || this.prevPath == el){
       this.prevPath = null;
