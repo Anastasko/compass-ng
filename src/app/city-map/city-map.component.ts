@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
+import {Component, OnInit, NgZone, ViewChild, OnDestroy} from '@angular/core';
 import { GeoCoder } from './geo-coder';
 import { EntityCityItem } from '../api/model/entity-city-item';
 import { CityItemService } from '../api/service/city-item.service';
@@ -12,6 +12,8 @@ import { EntityIosIcon } from "../api/model/entity-ios-icon";
 import { EntityMap } from "../api/model/entity-map";
 import { config } from "../config";
 import { EntityAndroidIcon } from "../api/model/entity-android-icon";
+import {ItemIconService} from "../common/service/item-icon.service";
+import {ActivatedRoute} from "@angular/router";
 
 declare var google: any;
 
@@ -32,7 +34,7 @@ declare var google: any;
     CityItemService
   ]
 })
-export class CityMapComponent implements OnInit {
+export class CityMapComponent implements OnInit, OnDestroy {
 
   showForm: boolean = false;
   map: any; // google map
@@ -43,13 +45,15 @@ export class CityMapComponent implements OnInit {
 
   @ViewChild('cityItemForm') cityItemForm: any;
   @ViewChild(InfoWindowComponent) infoWindow: InfoWindowComponent;
-  private kinds = new Map<number, EntityItemKind>();
-  private icons = new Map<number, EntityAndroidIcon>();
+
+  private selectedItemIdSub: any;
+  private selectedItemId: number;
 
   constructor(private _cityItemService: CityItemService,
               private _zone: NgZone,
-              private itemKindService: ItemKindService,
-              private androidIconService: AndroidIconService) {
+              private _itemIconService: ItemIconService,
+              private route: ActivatedRoute
+              ) {
   }
 
   edit(item: EntityCityItem) {
@@ -63,23 +67,14 @@ export class CityMapComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.subscribeOnSelectedItemParams();
     this.editObservable = new Observable<EntityCityItem>((obs: any) => {
       this.obs = obs;
     });
     this.editObservable.subscribe((item: EntityCityItem) => {
       this.edit(item);
     });
-    this.itemKindService.findAll().then(kinds => {
-      kinds.forEach(kind => {
-        this.kinds.set(kind.id, kind);
-      });
-    }).then(() => {
-      return this.androidIconService.findAll().then((icons: EntityAndroidIcon[]) => {
-        icons.forEach(icon => {
-          this.icons.set(icon.id, icon);
-        });
-      })
-    }).then(() => {
+    this._itemIconService.init().then(() => {
       let that = this;
       let lviv = {
         lat: 49.848,
@@ -126,7 +121,7 @@ export class CityMapComponent implements OnInit {
       draggable: true,
       map: that.map,
       timeout: 100,
-      icon: config.endpoint + this.icons.get(this.kinds.get(cityItem.kind.id).androidIcon.id).hdpi.url
+      icon: this._itemIconService._getIconUrl(cityItem.kind)
     });
     marker.cityItem = cityItem;
     cityItem['marker'] = marker;
@@ -149,7 +144,26 @@ export class CityMapComponent implements OnInit {
         });
       that.infoWindow.show(marker);
     });
+    if (cityItem.id === this.selectedItemId){
+      this.map.setZoom(17);
+      this.map.panTo(marker.position);
+      google.maps.event.addListenerOnce(this.map, 'idle', function(){
+        that.infoWindow.show(marker);
+      });
+    }
     return marker;
+  }
+
+  private subscribeOnSelectedItemParams() {
+    this.selectedItemIdSub = this.route
+      .queryParams
+      .subscribe(params => {
+        this.selectedItemId = +params['i'] || undefined;
+      });
+  }
+
+  ngOnDestroy() {
+    this.selectedItemIdSub.unsubscribe();
   }
 
 }

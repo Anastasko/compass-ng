@@ -35,6 +35,8 @@ import { ItemKindsComponent } from "./item-kinds/item-kinds.component";
 import {FacultyService} from "./api/service/faculty.service";
 import {FacultiesComponent} from "./faculties/faculties.component";
 import {MapItemsListComponent} from "./map/map-item-list/map-items-list.component";
+import { CityItemMapsComponent } from './maps/city-item-maps/city-item-maps.component';
+import {ItemIconService} from "./common/service/item-icon.service";
 
 @NgModule({
   imports: [
@@ -59,7 +61,8 @@ import {MapItemsListComponent} from "./map/map-item-list/map-items-list.componen
     IosIconsComponent,
     ItemKindsComponent,
     FacultiesComponent,
-    MapItemsListComponent
+    MapItemsListComponent,
+    CityItemMapsComponent
   ],
   bootstrap: [AppComponent],
   providers: [
@@ -73,7 +76,8 @@ import {MapItemsListComponent} from "./map/map-item-list/map-items-list.componen
     MapService,
     UrlResourceService,
     MapItemService,
-    FacultyService
+    FacultyService,
+    ItemIconService
   ]
 })
 export class AppModule {

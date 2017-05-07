@@ -35,6 +35,18 @@ export abstract class Service<T extends Entity> {
       });
   }
 
+  findMany(ids: number[]): Promise<T[]> {
+    return this._http.post(config.endpoint + this.prefix() + '/findMany', { ids: ids })
+      .toPromise()
+      .then(res => {
+        let result = [];
+        res.json().forEach(jsonItem => {
+          result.push(this.getInstance(jsonItem));
+        });
+        return result;
+      });
+  }
+
   create(entity: T): Promise<number> {
     return this._http.post(config.endpoint + this.prefix(), entity)
       .toPromise()

@@ -1,0 +1,32 @@
+<md-card>
+
+  <h3>
+    <a [routerLink]="'/city'" [queryParams]="{ i: cityItem.id }">
+      <img *ngIf="iconsReady"
+           [src]="itemIconService._getIconUrl(cityItem.kind)"
+      />
+    </a>
+    {{cityItem.name}}
+    <md-icon (click)='add()' class="add">playlist_add</md-icon>
+  </h3>
+
+  <div *ngFor="let map of maps; let i=index">
+
+    Поверх {{map.floor}} <br/>
+    <button md-raised-button color="primary"
+            (click)='open(map)'>
+      Open
+    </button>
+    <button md-raised-button color="primary"
+            (click)='update(map)'>
+      Update
+    </button>
+    <button md-raised-button color="warn"
+            (click)='delete(map, i)'>
+      Delete
+    </button>
+
+  </div>
+
+
+</md-card>

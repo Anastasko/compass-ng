@@ -1,0 +1,11 @@
+.add {
+  cursor: pointer;
+}
+
+md-icon.add:hover {
+  color: black;
+}
+
+md-icon.add {
+  color: #bbb;
+}

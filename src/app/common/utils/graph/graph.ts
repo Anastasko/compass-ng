@@ -12,7 +12,7 @@ export class Graph {
       if (this.vertices[ind].distanceTo(a) < Segment.RADIUS){
         return ind;
       }
-    };
+    }
     this.vertices.push(a);
     return this.vertices.length-1;
   }

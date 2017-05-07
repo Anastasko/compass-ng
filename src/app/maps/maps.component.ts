@@ -5,6 +5,7 @@ import { MapService } from '../api/service/map.service';
 import { EntityMap } from '../api/model/entity-map';
 import { CityItemService } from "../api/service/city-item.service";
 import { Entity } from "../common/model/entity";
+import {EntityCityItem} from "../api/model/entity-city-item";
 
 @Component({
   selector: 'x-map',
@@ -13,7 +14,8 @@ import { Entity } from "../common/model/entity";
 })
 export class MapsComponent {
 
-  maps: EntityMap[];
+  cityItems: EntityCityItem[] = [];
+
   owner: Entity;
 
   @ViewChild('mapForm') mapForm: any;
@@ -35,14 +37,18 @@ export class MapsComponent {
           id: +params['id']
         });
         this.cityItemService.findOne(params['id'])
-          .then(cityItem => cityItem.getMaps())
-          .then((maps: EntityMap[]) => {
-            this.maps = maps;
+          .then(cityItem => {
+            this.cityItems.push(cityItem);
           });
       } else {
         this.mapService.findAll()
           .then((maps: EntityMap[]) => {
-            this.maps = maps;
+            let ids = maps.map(m => m.owner.id);
+            ids = Array.from(new Set(ids));
+            return this.cityItemService.findMany(ids);
+          })
+          .then((owners) => {
+            this.cityItems.push(...owners);
           });
       }
     });
@@ -51,34 +57,13 @@ export class MapsComponent {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
-
   callback(item) {
-    if (item) {
-      this.maps.push(item);
-    }
     this.showForm = false;
   }
 
-  open(map: EntityMap) {
-    this._router.navigate([`/map/edit/${map.id}`]);
-  }
-
-  update(map: EntityMap) {
+  update(map: EntityMap){
     this.showForm = true;
     this.mapForm.render(map);
-  }
-
-  delete(map: EntityMap, index: number) {
-    this.mapService.delete(map)
-      .then(() => {
-        this.maps.splice(index, 1);
-      })
-  }
-
-  add() {
-    this.update(new EntityMap({
-      owner: this.owner
-    }));
   }
 
 }
