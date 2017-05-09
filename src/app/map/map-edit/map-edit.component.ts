@@ -1,47 +1,47 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { MapService } from '../api/service/map.service';
-import { EntityMap } from  '../api/model/entity-map';
+import {Component, OnInit, OnDestroy, ViewChild, Input, EventEmitter, Output} from '@angular/core';
+import { MapService } from '../../api/service/map.service';
+import { EntityMap } from  '../../api/model/entity-map';
 import { ActivatedRoute } from '@angular/router';
 import * as d3 from 'd3';
-import { config } from "../config";
-import { EntityMapItem } from "../api/model/entity-map-item";
-import { MapItemService } from "../api/service/map-item.service";
-import {MapItemsListComponent} from "./map-item-list/map-items-list.component";
-import {utils} from '../common/utils';
-import {Geometry} from "../common/utils/geometry";
-import {Polygon} from "../common/model/geometry/polygon";
-import {Graph} from "../common/utils/graph/graph";
-import {Segment} from "../common/model/geometry/segment";
-import {Point} from "../common/model/geometry/point";
+import { config } from "../../config";
+import { EntityMapItem } from "../../api/model/entity-map-item";
+import { MapItemService } from "../../api/service/map-item.service";
+import {MapItemsListComponent} from "../map-item-list/map-items-list.component";
+import {utils} from '../../common/utils';
+import {Geometry} from "../../common/utils/geometry";
+import {Polygon} from "../../common/model/geometry/polygon";
+import {Graph} from "../../common/utils/graph/graph";
+import {Segment} from "../../common/model/geometry/segment";
+import {Point} from "../../common/model/geometry/point";
 
 @Component({
-  selector: 'map',
-  templateUrl: `./map.edit.component.html`,
+  selector: 'map-edit',
+  templateUrl: 'map-edit.component.html',
   providers: [MapService],
   styleUrls: [
     'map-item-tooltip.css'
   ]
 })
-export class MapEditComponent implements OnInit, OnDestroy {
+export class MapEditComponent implements OnInit {
 
+  @Input()
   map: EntityMap;
+
+  @Output()
+  itemsLoaded = new EventEmitter();
 
   @ViewChild('mapItemForm') mapItemForm: any;
 
   @ViewChild(MapItemsListComponent) mapItemsListComponent: MapItemsListComponent;
-
-  status: string = "Loading ...";
 
   private showForm: boolean = false;
   private hideMenu: boolean = true;
   private hideMapMenu: boolean = true;
   private dragging: boolean = false;
   private tooltip: any;
-  private sub: any;
   private mapItemRadius = 8;
   private mapItems: EntityMapItem[];
   private svg: any;
-  private owner: EntityMap;
   private transform: any = {
     x: 0,
     y: 0,
@@ -50,11 +50,21 @@ export class MapEditComponent implements OnInit, OnDestroy {
   contextMenuItemIndex: number;
   prevPath: any;
   private prevEl: any;
+  private initDone: boolean;
 
   constructor(private _mapService: MapService,
-              private route: ActivatedRoute,
               private mapItemService: MapItemService) {
 
+  }
+
+  ngOnInit() {
+    this.tooltip = d3.select(".tooltip");
+    this.map = new EntityMap(this.map);
+    this.map.getMapItems().then((items: EntityMapItem[]) => {
+      items.sort(utils.attrComparator('room'));
+      this.mapItems = items;
+      this.itemsLoaded.emit(this.mapItems);
+    });
   }
 
   callback(item){
@@ -119,7 +129,7 @@ export class MapEditComponent implements OnInit, OnDestroy {
           let newItem = new EntityMapItem({
             room: this.fromSVGpath(id),
             owner: {
-              id: this.owner.id
+              id: this.map.id
             }
           });
           this.update(newItem);
@@ -248,31 +258,12 @@ export class MapEditComponent implements OnInit, OnDestroy {
     return el.getAttribute('was-fill') && el.getAttribute('was-fill').length > 0;
   }
 
-  ngOnInit() {
-    this.tooltip = d3.select(".tooltip");
-    this.sub = this.route.params.subscribe(params => {
-      this.owner = new EntityMap({
-        id: +params['id']
-      });
-      this._mapService.findOne(this.owner.id)
-        .then(map => {
-          this.map = map;
-          this.map.getMapItems().then((items: EntityMapItem[]) => {
-            items.sort(utils.attrComparator('room'));
-            this.mapItems = items;
-            this.initMap();
-          });
-        });
-    });
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
-
   initMap() {
+    if (this.initDone){
+      return;
+    }
     let that = this;
-    this.svg = d3.select("#map")
+    this.svg = d3.select("#map-" + this.map.id)
       .append("svg")
       .attr("width", "100%")
       .attr("height", "100%")
@@ -285,19 +276,41 @@ export class MapEditComponent implements OnInit, OnDestroy {
       }))
       .append("g");
 
+    if (!this.svg){
+      console.log('not at this time. The svg is not initialized. To be rendered lazily later.');
+    } else {
+      this.initDone = true;
+    }
+
     d3.xml(config.endpoint + this.map.image.url,
       function (error, documentFragment) {
         if (error) {
           console.log(error);
           return;
         }
-        var svgNode = documentFragment
-          .getElementsByTagName("svg")[0];
-        let node: any = that.svg.node();
-        node.appendChild(svgNode);
-        that.initMapItems();
-        that.initRoomNumbers();
-        that.status = "OK";
+        try {
+          var svgNode = documentFragment
+            .getElementsByTagName("svg")[0];
+          let node: any = that.svg.node();
+          node.appendChild(svgNode);
+
+          try {
+            that.initMapItems();
+          } catch (e) {
+            console.error('cant init map items for map ' + that.map.id);
+          }
+
+          try {
+            that.initRoomNumbers();
+          } catch (e) {
+            console.error('cant init room numbers on map ' + that.map.id);
+          }
+
+        } catch (e) {
+          console.error('ops');
+        }
+
+
       });
     d3.select('#map').on('click', () => {
       that.hideTooltipAndMenu();

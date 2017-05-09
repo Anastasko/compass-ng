@@ -11,7 +11,28 @@
             Logout
           </button>
         </span>
+
+  <button md-icon-button [mdMenuTriggerFor]="menu">
+    <md-icon>more_vert</md-icon>
+  </button>
+  <md-menu #menu="mdMenu">
+    <button md-menu-item [routerLink]="'/faculties'">
+      Faculties
+    </button>
+    <button md-menu-item [routerLink]="'/iosIcons'">
+      ios icons
+    </button>
+    <!--<button md-menu-item [routerLink]="'/androidIcons'">-->
+      <!--android icons-->
+    <!--</button>-->
+    <button md-menu-item [routerLink]="'/itemKinds'">
+      Item kinds
+    </button>
+  </md-menu>
+
+
   </md-toolbar>
+
 </div>
 
 <main>

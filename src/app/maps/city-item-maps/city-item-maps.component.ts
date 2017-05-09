@@ -39,10 +39,6 @@ export class CityItemMapsComponent implements OnInit {
       });
   }
 
-  open(map: EntityMap) {
-    this._router.navigate([`/map/edit/${map.id}`]);
-  }
-
   update(map: EntityMap) {
     this.onUpdate.emit(map);
   }
@@ -60,6 +56,10 @@ export class CityItemMapsComponent implements OnInit {
         id: this.cityItem.id
       }
     }));
+  }
+
+  openMaps(cityItem){
+    this._router.navigate([`${cityItem.id}/maps`]);
   }
 
 }

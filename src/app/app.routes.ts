@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { CityMapComponent } from './city-map/city-map.component';
 import { IndexComponent } from './index/index.component';
 import { MapsComponent } from './maps/maps.component';
-import { MapEditComponent } from './map/map.edit.component';
+import { MapsEditComponent } from './map/maps-edit.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './_guards/auth-guard.service';
 import { IosIconsComponent } from "./icons/ios-icons.component";
@@ -15,7 +15,7 @@ export const ROUTES: Routes = [
   {
     path: 'city', component: CityMapComponent, canActivate: [AuthGuard]
   },
-  { path: 'map/edit/:id', component: MapEditComponent, canActivate: [AuthGuard] },
+  { path: ':id/maps', component: MapsEditComponent, canActivate: [AuthGuard] },
   { path: 'maps', component: MapsComponent, canActivate: [AuthGuard] },
   { path: 'cityItem/:id/maps', component: MapsComponent, canActivate: [AuthGuard] },
   { path: 'iosIcons', component: IosIconsComponent, canActivate: [AuthGuard] },

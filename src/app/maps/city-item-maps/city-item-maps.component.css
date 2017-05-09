@@ -9,3 +9,12 @@ md-icon.add:hover {
 md-icon.add {
   color: #bbb;
 }
+
+.city-item-header-text {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.city-item-header-text:hover {
+  text-decoration: underline;
+}
