@@ -17,10 +17,7 @@ import {Point} from "../../common/model/geometry/point";
 @Component({
   selector: 'map-edit',
   templateUrl: 'map-edit.component.html',
-  providers: [MapService],
-  styleUrls: [
-    'map-item-tooltip.css'
-  ]
+  providers: [MapService]
 })
 export class MapEditComponent implements OnInit {
 
@@ -92,40 +89,22 @@ export class MapEditComponent implements OnInit {
     this.handleSelected(room);
   }
 
-  enUkLetters = [
-    {en: 'a', uk: 'а'},
-    {en: 'b', uk: 'б'},
-    {en: 'v', uk: 'в'},
-    {en: 'g', uk: 'г'},
-    {en: 'd', uk: 'д'},
-    {en: 'k', uk: 'к'}
-  ];
-
-  toSVGpath(room: string){
-    let res = room;
-    this.enUkLetters.forEach(l => {
-      res = res.replace(l.uk, l.en);
-    });
-    return 'path' + res;
+  toSVGpath(id: string){
+    return 'room' + id;
   }
 
   fromSVGpath(id: string){
     let res = id.substr(4);
-    this.enUkLetters.forEach(l => {
-      res = res.replace(l.en, l.uk);
-    });
     return res;
   }
 
   clicked(event){
     let el = event.target;
-    let name = el.nodeName;
-    if (name === 'path') {
+    if (el.parentElement.id === 'rooms') {
       let id = el.id;
       let room = this.fromSVGpath(id);
       let managed = this.findByRoom(room);
       if (!managed){
-        if (el.parentElement.id == 'rooms'){
           let newItem = new EntityMapItem({
             room: this.fromSVGpath(id),
             owner: {
@@ -133,7 +112,6 @@ export class MapEditComponent implements OnInit {
             }
           });
           this.update(newItem);
-        }
       } else {
         this.handleSelected(managed);
       }
@@ -160,15 +138,22 @@ export class MapEditComponent implements OnInit {
       return;
     }
 
+    let routeId = 0;
     let children = document.getElementById('routes').children;
     let g = new Graph();
     for(let c1 = 0; c1 < children.length; ++c1){
       let route = children[c1];
-      let d = route.getAttribute('d');
-      let r1 = Geometry.svgPathToPoints(d);
-      if (this.isDebugMode()) {
-        console.log(d);
-        console.log('(' + r1[0].x + ',' + r1[0].y + ") - (" + r1[1].x + ',' + r1[1].y + ')');
+      if (!route.id){
+        route.id = 'route-' + this.map.id + '-' + (++routeId);
+      }
+      let r1;
+      if (route.tagName === 'path') {
+        let d = route.getAttribute('d');
+        r1 = Geometry.svgPathToPoints(d);
+      } else if (route.tagName === 'line') {
+        r1 = Geometry.svgLineToPoints(route);
+      } else {
+        throw "bad route tag name '" + route.tagName + "'";
       }
       let seg = new Segment(r1[0], r1[1], route.id);
       g.addEdge(seg);
@@ -180,8 +165,8 @@ export class MapEditComponent implements OnInit {
       });
     }
 
-    let polygon1 = new Polygon(Geometry.svgPathToPoints(this.prevEl.getAttribute('d')));
-    let polygon2 = new Polygon(Geometry.svgPathToPoints(el.getAttribute('d')));
+    let polygon1 = new Polygon(Geometry.svgPolygonToPoints(this.prevEl.getAttribute('points')));
+    let polygon2 = new Polygon(Geometry.svgPolygonToPoints(el.getAttribute('points')));
 
     this.prevEl = el;
 
@@ -226,11 +211,11 @@ export class MapEditComponent implements OnInit {
 
     if (item == null || this.prevPath == el){
       this.prevPath = null;
-      this.mapItemsListComponent.setActive(null, true);
+    //  this.mapItemsListComponent.setActive(null, true);
     } else {
       this.prevPath = el;
       this.makeSelected(el);
-      this.mapItemsListComponent.setActive(item, true);
+     // this.mapItemsListComponent.setActive(item, true);
     }
   }
 
@@ -288,105 +273,19 @@ export class MapEditComponent implements OnInit {
           console.log(error);
           return;
         }
+
+        var svgNode = documentFragment
+          .getElementsByTagName("svg")[0];
+        let node: any = that.svg.node();
+        node.appendChild(svgNode);
+
         try {
-          var svgNode = documentFragment
-            .getElementsByTagName("svg")[0];
-          let node: any = that.svg.node();
-          node.appendChild(svgNode);
-
-          try {
-            that.initMapItems();
-          } catch (e) {
-            console.error('cant init map items for map ' + that.map.id);
-          }
-
-          try {
-            that.initRoomNumbers();
-          } catch (e) {
-            console.error('cant init room numbers on map ' + that.map.id);
-          }
-
+          that.initRoomNumbers();
         } catch (e) {
-          console.error('ops');
+          console.error('cant init room numbers on map ' + that.map.id + '(floor ' + that.map.floor + ')');
         }
-
 
       });
-    d3.select('#map').on('click', () => {
-      that.hideTooltipAndMenu();
-    });
-  }
-
-  initMapItems() {
-    let that = this;
-    this.svg.selectAll(".map-item")
-      .data(this.mapItems)
-      .enter().append("circle")
-      .attr("data-index", (v, i) => {
-        return i;
-      })
-      .on("click", v => {
-        that.tooltip
-          .text(v.id)
-          .style("left", (that.transform.x + v.x * that.transform.k - 30) + "px")
-          .style("top", (70 + that.transform.y + v.y * that.transform.k - 12) + "px")
-          .style("display", "block");
-        d3.event.stopPropagation();
-      })
-      .on("contextmenu", function () {
-        let position = d3.mouse(this);
-        that.contextMenuItemIndex = this.dataset.index;
-        that.hideMenu = false;
-        d3.select('#map_item_menu')
-          .style('position', 'absolute')
-          .style('left', (that.transform.x + position[0] * that.transform.k) + "px")
-          .style('top', (85 + that.transform.y + position[1] * that.transform.k) + "px");
-        d3.event.preventDefault();
-      })
-      .attr("class", "map-item")
-      .attr("cx", function (d: any) {
-        return d.x;
-      })
-      .attr("cy", function (d: any) {
-        return d.y;
-      })
-      .attr("r", this.mapItemRadius)
-      .style("fill", 'orange')
-      .style("cursor", "move")
-      .call(d3.drag()
-        .on("start", function () {
-          that.dragging = true;
-          that.hideTooltipAndMenu();
-          d3.select(this).raise().style("fill", 'green');
-        })
-        .on("drag", function (d: any) {
-          d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
-        })
-        .on("end", function () {
-          d3.select(this).style("fill", 'orange');
-          that.dragging = false;
-        }))
-      .on("mouseover", function () {
-        if (!that.dragging) {
-          d3.select(this).style("fill", 'orangered');
-        }
-      })
-      .on("mouseout", function () {
-        if (!that.dragging) {
-          d3.select(this).style("fill", "orange");
-        }
-      });
-  }
-
-
-  hideTooltip() {
-    this.tooltip.style("display", "none");
-  }
-
-  hideTooltipAndMenu() {
-    this.hideTooltip();
-    this.hideMenu = true;
-    this.hideMapMenu = true;
   }
 
   getRoomsFromSvg(): Element[] {

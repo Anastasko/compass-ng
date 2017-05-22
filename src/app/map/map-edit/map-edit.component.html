@@ -1,21 +1,8 @@
 <div [hidden]="showForm">
   <div [id]="'map-' + map.id"
        (click)="clicked($event)"
-       style="height: calc(100vh - 110px); border: 1px solid black">
+       style="height: calc(100vh - 150px); border: 1px solid grey">
 
-  </div>
-  <div id="map_item_menu" [style.display]="hideMenu ? 'none' : 'block'">
-    <button (click)="edit()">
-      edit
-    </button>
-  </div>
-  <div id="map_menu" [style.display]="hideMapMenu ? 'none' : 'block'">
-    <button (click)="create()">
-      create
-    </button>
-  </div>
-  <div class="tooltip" style="display: none">
-    tooltip
   </div>
 
 </div>

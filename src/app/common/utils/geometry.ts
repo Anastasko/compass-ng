@@ -65,10 +65,16 @@ export class Geometry {
     var commands = d.split(/(?=[mvhlczMVHLCZ])/);
     for(let command of commands){
       // console.log(command);
+      let ind = 0;
+      while (command.indexOf('-', ind) != -1){
+        let i2 = command.indexOf('-', ind);
+        command = command.substr(0, i2) + ',' + command.substr(i2);
+        ind = command.indexOf('-', ind)+1;
+      }
       let arr = command.trim().split(/,| /);
       if (arr[0].length != 1){
-        arr[0] = arr[0].slice(1);
         arr.splice(0,0,arr[0].charAt(0))
+        arr[1] = arr[1].slice(1);
       }
       let letter = arr[0];
       arr.shift();
@@ -77,4 +83,25 @@ export class Geometry {
     return points;
   }
 
+  static svgPolygonToPoints(pointsAttr: string): Point[] {
+    let points = []
+    var pairs = pointsAttr.split(' ');
+    for(let pair of pairs){
+      if (pair.length){
+        let coords = pair.split(',');
+        points.push(new Point(+coords[0], +coords[1]));
+      }
+    }
+    return points;
+  }
+
+  static svgLineToPoints(route: Element) {
+    let points = [];
+    [1, 2].forEach(i => {
+      let x = +route.getAttribute('x'+i);
+      let y = +route.getAttribute('y'+i);
+      points.push(new Point(x, y));
+    });
+    return points;
+  }
 }
