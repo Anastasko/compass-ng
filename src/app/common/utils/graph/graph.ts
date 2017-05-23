@@ -5,21 +5,22 @@ import {Polygon} from "../../model/geometry/polygon";
 export class Graph {
 
   edges = new Map<number, {v: number, edge: Segment}[]>();
-  vertices : Point[] = [];
+  vertices : Vertice[] = [];
 
-  private findPoint(a: Point): number {
+  private findPoint(a: Point, layer: number): number {
     for(let ind = 0; ind < this.vertices.length; ++ind){
-      if (this.vertices[ind].distanceTo(a) < Segment.RADIUS){
+      let vert = this.vertices[ind];
+      if (vert.layer === layer && vert.point.distanceTo(a) < Segment.RADIUS){
         return ind;
       }
     }
-    this.vertices.push(a);
+    this.vertices.push(new Vertice(a, layer));
     return this.vertices.length-1;
   }
 
   private _addEdge(edge: Segment) {
-    let A = this.findPoint(edge.a);
-    let B = this.findPoint(edge.b);
+    let A = this.findPoint(edge.a, edge.layer);
+    let B = this.findPoint(edge.b, edge.layer);
     if (!this.edges.has(A)) {
       this.edges.set(A, []);
     }
@@ -46,10 +47,11 @@ export class Graph {
     return s;
   }
 
-  nearestVertice(p: Polygon): number {
+  nearestVertice(p: Polygon, layer: number): number {
     let res = -1;
     this.vertices.forEach((v,index) => {
-      if (res == -1 || p.distanceTo(v) < p.distanceTo(this.vertices[res])){
+      if (layer === v.layer &&
+        (res == -1 || p.distanceTo(v.point) < p.distanceTo(this.vertices[res].point))){
         res = index;
       }
     });
@@ -73,7 +75,6 @@ export class Graph {
           cur = v;
         }
       });
-      // console.log(cur);
       if (cur == null || dist.get(cur) == Infinity) {
         return undefined;
       }

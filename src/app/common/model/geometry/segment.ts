@@ -7,11 +7,13 @@ export class Segment {
   a: Point;
   b: Point;
   id: string;
+  layer: number;
 
-  constructor(a: Point, b: Point, id: string){
+  constructor(a: Point, b: Point, id: string, layer: number){
     this.a = a;
     this.b = b;
     this.id = id;
+    this.layer = layer;
   }
 
   length(){

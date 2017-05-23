@@ -26,15 +26,16 @@ export class MapEditComponent implements OnInit {
 
   @Output()
   itemsLoaded = new EventEmitter();
+  @Output()
+  svgLoaded = new EventEmitter();
 
   @ViewChild('mapItemForm') mapItemForm: any;
 
-  @ViewChild(MapItemsListComponent) mapItemsListComponent: MapItemsListComponent;
+  @Input()
+  mapItemsListComponent: MapItemsListComponent;
 
   private showForm: boolean = false;
   private hideMenu: boolean = true;
-  private hideMapMenu: boolean = true;
-  private dragging: boolean = false;
   private tooltip: any;
   private mapItemRadius = 8;
   private mapItems: EntityMapItem[];
@@ -46,8 +47,8 @@ export class MapEditComponent implements OnInit {
   };
   contextMenuItemIndex: number;
   prevPath: any;
-  private prevEl: any;
   private initDone: boolean;
+  svgNode: any;
 
   constructor(private _mapService: MapService,
               private mapItemService: MapItemService) {
@@ -62,6 +63,20 @@ export class MapEditComponent implements OnInit {
       this.mapItems = items;
       this.itemsLoaded.emit(this.mapItems);
     });
+    this.loadSvgNode();
+  }
+
+  loadSvgNode() {
+    let that = this;
+    d3.xml(config.endpoint + this.map.image.url,
+      function (error, documentFragment) {
+        if (error) {
+          console.log(error);
+          return;
+        }
+        that.svgNode = documentFragment.getElementsByTagName("svg")[0];
+        that.svgLoaded.emit(that.map.id);
+      });
   }
 
   callback(item){
@@ -120,7 +135,7 @@ export class MapEditComponent implements OnInit {
 
   printText(p: Point, str: string, fontSize: number){
     let html = `<text x="${p.x}" y="${p.y}" font-family="Verdana" font-size="${fontSize}" fill="blue">${str}</text>`;
-    document.getElementById('labels').innerHTML += (html);
+    this.svgNode.getElementById('labels').innerHTML += (html);
   }
 
   printDebugText(p: Point, str: string) {
@@ -131,69 +146,32 @@ export class MapEditComponent implements OnInit {
     return localStorage.getItem('debug') == 'true';
   }
 
-  buildRoute(el: any){
-
-    if (!this.prevEl){
-      this.prevEl = el;
-      return;
-    }
-
-    let routeId = 0;
-    let children = document.getElementById('routes').children;
-    let g = new Graph();
-    for(let c1 = 0; c1 < children.length; ++c1){
-      let route = children[c1];
-      if (!route.id){
-        route.id = 'route-' + this.map.id + '-' + (++routeId);
+  buildGraph(g: Graph){
+    try {
+      let routeId = 0;
+      let children = this.svgNode.getElementById('routes').children;
+      for(let c1 = 0; c1 < children.length; ++c1){
+        let route = children[c1];
+        if (!route.id){
+          route.id = 'route-' + this.map.id + '-' + (++routeId);
+        }
+        let r1;
+        if (route.tagName === 'path') {
+          let d = route.getAttribute('d');
+          r1 = Geometry.svgPathToPoints(d);
+        } else if (route.tagName === 'line') {
+          r1 = Geometry.svgLineToPoints(route);
+        } else {
+          throw "bad route tag name '" + route.tagName + "'";
+        }
+        let seg = new Segment(r1[0], r1[1], route.id, this.map.id);
+        g.addEdge(seg);
       }
-      let r1;
-      if (route.tagName === 'path') {
-        let d = route.getAttribute('d');
-        r1 = Geometry.svgPathToPoints(d);
-      } else if (route.tagName === 'line') {
-        r1 = Geometry.svgLineToPoints(route);
-      } else {
-        throw "bad route tag name '" + route.tagName + "'";
-      }
-      let seg = new Segment(r1[0], r1[1], route.id);
-      g.addEdge(seg);
-    }
 
-    if (this.isDebugMode()){
-      g.vertices.forEach((v,k) => {
-        this.printDebugText(v, ''+k);
-      });
+    } catch (e) {
+      console.error("problemos with " + this.map.floor + " floor");
+      debugger;
     }
-
-    let polygon1 = new Polygon(Geometry.svgPolygonToPoints(this.prevEl.getAttribute('points')));
-    let polygon2 = new Polygon(Geometry.svgPolygonToPoints(el.getAttribute('points')));
-
-    this.prevEl = el;
-
-    if (this.isDebugMode()) {
-      console.log(g.toString());
-    }
-    let start = g.nearestVertice(polygon1);
-    let fin = g.nearestVertice(polygon2);
-    console.log('A='+start+' B='+fin);
-    let route = g.dijkstra(start, fin);
-    console.log(route);
-    if (route === undefined){
-      alert("route not found! try debug mode.");
-      return;
-    }
-    for(let c1 = 0; c1 < children.length; ++c1) {
-      let rout : Element = children.item(c1);
-      document.getElementById(rout.id).style.opacity = this.isDebugMode() ? '0.3' : '0';
-    }
-    document.getElementById('routes').style.display = 'inline';
-    route.forEach((r,ind) => {
-      let routeEl = document.getElementById(r.id);
-       setTimeout(() => {
-        routeEl.style.opacity = '1';
-      }, ind*100);
-    });
-
   }
 
   handleSelected(item: EntityMapItem){
@@ -207,15 +185,13 @@ export class MapEditComponent implements OnInit {
       item = null;
     }
 
-    if (item) this.buildRoute(el);
-
     if (item == null || this.prevPath == el){
       this.prevPath = null;
-    //  this.mapItemsListComponent.setActive(null, true);
+      this.mapItemsListComponent.setActive(null, true);
     } else {
       this.prevPath = el;
       this.makeSelected(el);
-     // this.mapItemsListComponent.setActive(item, true);
+      this.mapItemsListComponent.setActive(item, true);
     }
   }
 
@@ -267,25 +243,9 @@ export class MapEditComponent implements OnInit {
       this.initDone = true;
     }
 
-    d3.xml(config.endpoint + this.map.image.url,
-      function (error, documentFragment) {
-        if (error) {
-          console.log(error);
-          return;
-        }
-
-        var svgNode = documentFragment
-          .getElementsByTagName("svg")[0];
-        let node: any = that.svg.node();
-        node.appendChild(svgNode);
-
-        try {
-          that.initRoomNumbers();
-        } catch (e) {
-          console.error('cant init room numbers on map ' + that.map.id + '(floor ' + that.map.floor + ')');
-        }
-
-      });
+    let node: any = that.svg.node();
+    node.appendChild(this.svgNode);
+    that.initRoomNumbers();
   }
 
   getRoomsFromSvg(): Element[] {
@@ -299,16 +259,20 @@ export class MapEditComponent implements OnInit {
   }
 
   initRoomNumbers() {
-    this.getRoomsFromSvg().forEach(r => {
-      let roomNumber = this.fromSVGpath(r.id);
-      let room = this.findByRoom(roomNumber);
-      if (room != null){
-        let polygon = new Polygon(Geometry.svgPathToPoints(r.getAttribute('d')));
-        let c = polygon.center();
-        c.x -= 15;
-        this.printText(c, roomNumber, 14);
-      }
-    })
+    try {
+      this.getRoomsFromSvg().forEach(r => {
+        let roomNumber = this.fromSVGpath(r.id);
+        let room = this.findByRoom(roomNumber);
+        if (room != null){
+          let polygon = new Polygon(Geometry.svgPolygonToPoints(r.getAttribute('points')));
+          let c = polygon.center();
+          c.x -= 15;
+          this.printText(c, roomNumber, 14);
+        }
+      });
+    } catch (e) {
+      console.error('cant init room numbers on map ' + this.map.id + '(floor ' + this.map.floor + ')');
+    }
   }
 
 }

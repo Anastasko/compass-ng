@@ -2,9 +2,12 @@
 
   <div fxFlex="calc(100vh - 100px)">
 
-    <md-tab-group (selectChange)="onTabClick($event)">
+    <md-tab-group (selectChange)="onTabClick($event)" [selectedIndex]="selectedTab">
       <md-tab *ngFor="let map of maps" [label]="'Поверх ' + map.floor">
-        <map-edit [map]="map" (itemsLoaded)="onItemsLoaded($event)">
+        <map-edit [map]="map"
+                  [mapItemsListComponent]="mapItemsListComponent"
+                  (svgLoaded)="onSvgLoaded($event)"
+                  (itemsLoaded)="onItemsLoaded($event)">
 
         </map-edit>
       </md-tab>
