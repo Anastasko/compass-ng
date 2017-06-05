@@ -7,6 +7,7 @@ import { EntityMap } from "../model/entity-map";import { EntityFaculty } from ".
 export class EntityCityItem extends Entity {
 
     name: string;
+    placeId: string;
     longitude: number;
     latitude: number;
     address: string;
@@ -16,6 +17,7 @@ export class EntityCityItem extends Entity {
     constructor(options: any){
         super(options);
         this.name = options.name;
+        this.placeId = options.placeId;
         this.longitude = options.longitude;
         this.latitude = options.latitude;
         this.address = options.address;

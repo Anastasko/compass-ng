@@ -88,7 +88,7 @@ export class FacultyService extends Service<EntityFaculty> {
     "prefixPath": "/uploads/faculties"
   },
   {
-    "id": 41,
+    "id": 42,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 8,

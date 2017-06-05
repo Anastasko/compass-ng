@@ -64,7 +64,7 @@ export class MapService extends Service<EntityMap> {
     "prefixPath": ""
   },
   {
-    "id": 40,
+    "id": 41,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 8,

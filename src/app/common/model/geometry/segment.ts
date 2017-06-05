@@ -1,23 +1,25 @@
 import {Point} from "./point";
 import {Polygon} from "./polygon";
+import {Vertice} from "../../utils/graph/vertice";
 export class Segment {
 
   static RADIUS: number = 3;
 
-  a: Point;
-  b: Point;
+  a: Vertice;
+  b: Vertice;
   id: string;
-  layer: number;
 
-  constructor(a: Point, b: Point, id: string, layer: number){
+  constructor(a: Vertice, b: Vertice, id: string){
     this.a = a;
     this.b = b;
     this.id = id;
-    this.layer = layer;
   }
 
   length(){
-    return this.a.distanceTo(this.b);
+    if (this.a.layer != this.b.layer){
+      return 0;
+    }
+    return this.a.point.distanceTo(this.b.point);
   }
 
 }

@@ -8,8 +8,6 @@ export class EntityMapItem extends Entity {
 
     owner: Entity;
     name: string;
-    x: number;
-    y: number;
     square: number;
     room: string;
     kind: Entity;
@@ -19,8 +17,6 @@ export class EntityMapItem extends Entity {
         super(options);
         this.owner = new Entity(options.owner);
         this.name = options.name;
-        this.x = options.x;
-        this.y = options.y;
         this.square = options.square;
         this.room = options.room;
         this.kind = new Entity(options.kind);

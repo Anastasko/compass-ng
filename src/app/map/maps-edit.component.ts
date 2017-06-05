@@ -10,6 +10,9 @@ import {MapItemsListComponent} from "./map-item-list/map-items-list.component";
 import {Graph} from "../common/utils/graph/graph";
 import {Polygon} from "../common/model/geometry/polygon";
 import {Geometry} from "../common/utils/geometry";
+import {Point} from "../common/model/geometry/point";
+import {Vertice} from "../common/utils/graph/vertice";
+import {Segment} from "../common/model/geometry/segment";
 
 @Component({
   selector: 'app-maps-edit',
@@ -22,7 +25,7 @@ export class MapsEditComponent implements OnInit, OnDestroy {
   maps: EntityMap[];
   mapItems: EntityMapItem[] = [];
   mapReady = [];
-  selectedTab = 0;
+  selectedTab = 1;
   g: Graph;
 
   @ViewChild(MapItemsListComponent) mapItemsListComponent: MapItemsListComponent;
@@ -57,11 +60,22 @@ export class MapsEditComponent implements OnInit, OnDestroy {
         let that = this;
         Promise.all(this.mapReady.map(mr => mr.promise))
           .then((components) => {
-          let text = this.g.toString();
 
+          let portalsMap = {};
           components.forEach(c1 => {
-
+            let portals = c1.svgNode.getElementById('portals');
+            if (portals){
+              for(let p = 0; p < portals.children.length; ++p) {
+                let po = portals.children.item(p);
+                portalsMap[po.id] = portalsMap[po.id] || [];
+                let point = new Point(+po.attributes.cx.value, +po.attributes.cy.value);
+                portalsMap[po.id].push(new Vertice(point, c1.map.id));
+              }
+            }
           });
+          this.processPortals(portalsMap);
+
+          let text = this.g.toString();
 
           if (this.isDebugMode()){
             let g = this.g;
@@ -71,10 +85,23 @@ export class MapsEditComponent implements OnInit, OnDestroy {
             });
           }
 
+          this.selectedTab = 1;
+
         });
         this.maps = maps;
       });
     });
+  }
+
+  processPortals(portalsMap: any){
+    Object.keys(portalsMap).forEach(key => {
+      let list = portalsMap[key];
+      list.forEach(p1 => {
+        list.forEach(p2 => {
+          this.g._addEdge(new Segment(p1, p2, ''));
+        })
+      })
+    })
   }
 
   deferedPromise() {
@@ -107,12 +134,26 @@ export class MapsEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  onRoomSelected(item: EntityMapItem, silent: boolean){
+  onRoomSelected(item: EntityMapItem){
+    if (!item){
+      return;
+    }
     let ind = this.findIndex(item.owner.id);
     this.selectedTab = ind;
-    this.mapComponents.toArray()[ind].onRoomSelected(item);
     this.buildRoute(item);
   }
+
+  onListRoomSelected(item){
+    let ind = this.findIndex(item.owner.id);
+    this.mapComponents.toArray()[ind].onRoomSelected(item, true);
+    this.onRoomSelected(item);
+  }
+
+  onSvgRoomSelected(item){
+    this.mapItemsListComponent.onRoomSelected(item, true);
+    this.onRoomSelected(item);
+  }
+
 
   onSvgLoaded(id){
     let ind = this.findIndex(id);
@@ -140,6 +181,7 @@ export class MapsEditComponent implements OnInit, OnDestroy {
     let node = this.getComponentWithItem(toItem).svgNode;
     let el = node.getElementById('room' + toItem.room);
     el.setAttribute('layer', toItem.owner.id);
+
     if (!this.prevEl){
       this.prevEl = el;
       return;
@@ -148,13 +190,14 @@ export class MapsEditComponent implements OnInit, OnDestroy {
     let polygon1 = new Polygon(Geometry.svgPolygonToPoints(this.prevEl.getAttribute('points')));
     let polygon2 = new Polygon(Geometry.svgPolygonToPoints(el.getAttribute('points')));
 
-    this.prevEl = el;
-
     let g = this.g;
 
     let start = g.nearestVertice(polygon1, +this.prevEl.getAttribute('layer'));
     let fin = g.nearestVertice(polygon2, +el.getAttribute('layer'));
+
+    this.prevEl = el;
     console.log('A='+start+' B='+fin);
+
     let route = g.dijkstra(start, fin);
 
     console.log(route);
@@ -163,18 +206,10 @@ export class MapsEditComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let children = document.getElementById('routes').children;
-    for(let c1 = 0; c1 < children.length; ++c1) {
-      let rout : Element = children.item(c1);
-      document.getElementById(rout.id).style.opacity = this.isDebugMode() ? '0.3' : '0';
-    }
-    document.getElementById('routes').style.display = 'inline';
-    route.forEach((r,ind) => {
-      let routeEl = document.getElementById(r.id);
-       setTimeout(() => {
-        routeEl.style.opacity = '1';
-      }, ind*100);
+    this.mapComponents.toArray().forEach(cmp => {
+      cmp.routeContainer.fromRoutes(route);
     });
+    this.mapComponents.toArray()[this.selectedTab].routeContainer.build();
 
   }
 

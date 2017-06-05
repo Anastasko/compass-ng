@@ -13,6 +13,9 @@ import {Polygon} from "../../common/model/geometry/polygon";
 import {Graph} from "../../common/utils/graph/graph";
 import {Segment} from "../../common/model/geometry/segment";
 import {Point} from "../../common/model/geometry/point";
+import {MapsEditComponent} from "../maps-edit.component";
+import {Vertice} from "../../common/utils/graph/vertice";
+import RouteContainer from "./RouteContainer";
 
 @Component({
   selector: 'map-edit',
@@ -31,8 +34,8 @@ export class MapEditComponent implements OnInit {
 
   @ViewChild('mapItemForm') mapItemForm: any;
 
-  @Input()
-  mapItemsListComponent: MapItemsListComponent;
+  @Output()
+  roomSelected = new EventEmitter();
 
   private showForm: boolean = false;
   private hideMenu: boolean = true;
@@ -49,10 +52,11 @@ export class MapEditComponent implements OnInit {
   prevPath: any;
   private initDone: boolean;
   svgNode: any;
+  routeContainer;
 
   constructor(private _mapService: MapService,
               private mapItemService: MapItemService) {
-
+    this.routeContainer = new RouteContainer(this);
   }
 
   ngOnInit() {
@@ -100,8 +104,32 @@ export class MapEditComponent implements OnInit {
     this.update(mapItem);
   }
 
-  onRoomSelected(room){
-    this.handleSelected(room);
+  onRoomSelected(item, silent){
+
+    let path = this.toSVGpath(item.room);
+    let el = document.getElementById(path);
+    if (this.prevPath) {
+      this.makeUnselected(this.prevPath);
+    }
+    if (item != null && el == null){
+      alert('Will not be hightlited. Path #' + path + ' is not present in svg.');
+      item = null;
+    }
+
+    if (item == null || this.prevPath == el){
+      this.prevPath = null;
+      if (silent){
+        return;
+      }
+      this.roomSelected.emit(null);
+    } else {
+      this.prevPath = el;
+      this.makeSelected(el);
+      if (silent){
+        return;
+      }
+      this.roomSelected.emit(item);
+    }
   }
 
   toSVGpath(id: string){
@@ -128,7 +156,7 @@ export class MapEditComponent implements OnInit {
           });
           this.update(newItem);
       } else {
-        this.handleSelected(managed);
+        this.onRoomSelected(managed, false);
       }
     }
   }
@@ -164,34 +192,15 @@ export class MapEditComponent implements OnInit {
         } else {
           throw "bad route tag name '" + route.tagName + "'";
         }
-        let seg = new Segment(r1[0], r1[1], route.id, this.map.id);
+        let vert1 = new Vertice(r1[0], this.map.id);
+        let vert2 = new Vertice(r1[1], this.map.id);
+        let seg = new Segment(vert1, vert2, route.id);
         g.addEdge(seg);
       }
 
     } catch (e) {
       console.error("problemos with " + this.map.floor + " floor");
       debugger;
-    }
-  }
-
-  handleSelected(item: EntityMapItem){
-    let path = this.toSVGpath(item.room);
-    let el = document.getElementById(path);
-    if (this.prevPath) {
-      this.makeUnselected(this.prevPath);
-    }
-    if (item != null && el == null){
-      alert('Will not be hightlited. Path #' + path + ' is not present in svg.');
-      item = null;
-    }
-
-    if (item == null || this.prevPath == el){
-      this.prevPath = null;
-      this.mapItemsListComponent.setActive(null, true);
-    } else {
-      this.prevPath = el;
-      this.makeSelected(el);
-      this.mapItemsListComponent.setActive(item, true);
     }
   }
 
@@ -220,10 +229,13 @@ export class MapEditComponent implements OnInit {
   }
 
   initMap() {
+    let that = this;
+    setTimeout(() => {
+      that.routeContainer.build()
+    }, 1500);
     if (this.initDone){
       return;
     }
-    let that = this;
     this.svg = d3.select("#map-" + this.map.id)
       .append("svg")
       .attr("width", "100%")

@@ -32,7 +32,7 @@ export class MapItemService extends Service<EntityMapItem> {
     "prefixPath": ""
   },
   {
-    "id": 42,
+    "id": 43,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 1,
@@ -46,35 +46,7 @@ export class MapItemService extends Service<EntityMapItem> {
     "prefixPath": ""
   },
   {
-    "id": 43,
-    "fieldKind": "REGULAR",
-    "fieldType": {
-      "id": 2,
-      "typeName": "Undefined",
-      "typeKind": "PRIMITIVE",
-      "primitiveEntityType": "DOUBLE"
-    },
-    "fieldName": "x",
-    "label": "X",
-    "order": 3,
-    "prefixPath": ""
-  },
-  {
     "id": 44,
-    "fieldKind": "REGULAR",
-    "fieldType": {
-      "id": 2,
-      "typeName": "Undefined",
-      "typeKind": "PRIMITIVE",
-      "primitiveEntityType": "DOUBLE"
-    },
-    "fieldName": "y",
-    "label": "Y",
-    "order": 4,
-    "prefixPath": ""
-  },
-  {
-    "id": 45,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 2,
@@ -84,11 +56,11 @@ export class MapItemService extends Service<EntityMapItem> {
     },
     "fieldName": "square",
     "label": "Square",
-    "order": 5,
+    "order": 3,
     "prefixPath": ""
   },
   {
-    "id": 46,
+    "id": 45,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 1,
@@ -98,11 +70,11 @@ export class MapItemService extends Service<EntityMapItem> {
     },
     "fieldName": "room",
     "label": "Room",
-    "order": 6,
+    "order": 4,
     "prefixPath": ""
   },
   {
-    "id": 47,
+    "id": 46,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 4,
@@ -112,11 +84,11 @@ export class MapItemService extends Service<EntityMapItem> {
     },
     "fieldName": "kind",
     "label": "Kind",
-    "order": 7,
+    "order": 5,
     "prefixPath": ""
   },
   {
-    "id": 48,
+    "id": 47,
     "fieldKind": "REGULAR",
     "fieldType": {
       "id": 11,
@@ -126,7 +98,7 @@ export class MapItemService extends Service<EntityMapItem> {
     },
     "fieldName": "faculty",
     "label": "Faculty",
-    "order": 8,
+    "order": 6,
     "prefixPath": ""
   }
 ];

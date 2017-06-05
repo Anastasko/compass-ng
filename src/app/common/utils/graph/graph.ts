@@ -7,20 +7,20 @@ export class Graph {
   edges = new Map<number, {v: number, edge: Segment}[]>();
   vertices : Vertice[] = [];
 
-  private findPoint(a: Point, layer: number): number {
+  private findVertice(a: Vertice): number {
     for(let ind = 0; ind < this.vertices.length; ++ind){
       let vert = this.vertices[ind];
-      if (vert.layer === layer && vert.point.distanceTo(a) < Segment.RADIUS){
+      if (vert.layer === a.layer && vert.point.distanceTo(a.point) < Segment.RADIUS){
         return ind;
       }
     }
-    this.vertices.push(new Vertice(a, layer));
+    this.vertices.push(a);
     return this.vertices.length-1;
   }
 
-  private _addEdge(edge: Segment) {
-    let A = this.findPoint(edge.a, edge.layer);
-    let B = this.findPoint(edge.b, edge.layer);
+  _addEdge(edge: Segment) {
+    let A = this.findVertice(edge.a);
+    let B = this.findVertice(edge.b);
     if (!this.edges.has(A)) {
       this.edges.set(A, []);
     }

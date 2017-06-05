@@ -30,15 +30,7 @@ export class MapItemsListComponent {
 
   active: EntityMapItem;
 
-  handleSelected(item: EntityMapItem){
-    if (this.active && this.active.id == item.id){
-      this.setActive(null, false);
-    } else {
-      this.setActive(item, false);
-    }
-  }
-
-  setActive(item: EntityMapItem, silent: boolean) {
+  onRoomSelected(item: EntityMapItem, silent: boolean){
     this.active = item;
     if (!silent){
       this.activeChanged.emit(this.active);
