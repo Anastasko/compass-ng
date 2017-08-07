@@ -1,10 +1,4 @@
 <section [hidden]="showForm">
-  <md-toolbar>
-    <button md-raised-button color="accent"
-            (click)='add()'>
-      Add
-    </button>
-  </md-toolbar>
 
   <div fxLayoutWrap>
     <md-card *ngFor="let faculty of faculties; let i=index"

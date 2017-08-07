@@ -20,6 +20,10 @@ export class AppComponent implements OnInit {
 
   }
 
+  currentRoute() {
+    return this._router.url;
+  }
+
   ngOnInit(): void {
     this._router.events.subscribe((url) => {
       this.isLogin = (url.url === '/login');

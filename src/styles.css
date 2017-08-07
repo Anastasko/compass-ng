@@ -1,2 +1,20 @@
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
 
+svg #rooms polygon:hover,
+svg #rooms path:hover {
+  fill: #efff91;
+}
+
+#floors .mat-tab-header {
+  margin-left: 42px;
+}
+
+#three-dots {
+  position: absolute;
+  margin-top: 5px;
+}
+
+body {
+  margin-right: 0px;
+}
+

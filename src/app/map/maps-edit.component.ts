@@ -123,6 +123,7 @@ export class MapsEditComponent implements OnInit, OnDestroy {
 
   onItemsLoaded(items){
     this.mapItems.push(...items);
+    this.mapItems.sort(utils.attrsComparator(['floor', 'room']));
   }
 
   onTabClick(tab){

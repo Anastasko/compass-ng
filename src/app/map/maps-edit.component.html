@@ -1,8 +1,8 @@
 <div fxLayout="row" fxLayoutAlign="start start" >
 
-  <div fxFlex="calc(100vh - 100px)">
+  <div fxFlex="calc(100vh - 105px)">
 
-    <md-tab-group (selectChange)="onTabClick($event)" [selectedIndex]="selectedTab">
+    <md-tab-group id="floors" (selectChange)="onTabClick($event)" [selectedIndex]="selectedTab">
       <md-tab *ngFor="let map of maps" [label]="'Поверх ' + map.floor">
         <map-edit [map]="map"
                   (svgLoaded)="onSvgLoaded($event)"
@@ -15,7 +15,7 @@
 
   </div>
 
-  <div fxFlex="100px" style="height: calc(100vh - 95px); overflow-y: scroll">
+  <div fxFlex="105px" style="height: calc(100vh - 20px); overflow-y: scroll">
 
     <map-items-list [rooms]="mapItems"
                     (activeChanged)="onListRoomSelected($event)"

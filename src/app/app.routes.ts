@@ -10,12 +10,12 @@ import { ItemKindsComponent } from "./item-kinds/item-kinds.component";
 import {FacultiesComponent} from "./faculties/faculties.component";
 
 export const ROUTES: Routes = [
-  { path: '', component: IndexComponent },
+  { path: '', redirectTo: '/271/maps', pathMatch: "full" },
   { path: 'login', component: LoginComponent },
   {
     path: 'city', component: CityMapComponent, canActivate: [AuthGuard]
   },
-  { path: ':id/maps', component: MapsEditComponent, canActivate: [AuthGuard] },
+  { path: ':id/maps', component: MapsEditComponent },
   { path: 'maps', component: MapsComponent, canActivate: [AuthGuard] },
   { path: 'cityItem/:id/maps', component: MapsComponent, canActivate: [AuthGuard] },
   { path: 'iosIcons', component: IosIconsComponent, canActivate: [AuthGuard] },

@@ -1,21 +1,15 @@
-<div [hidden]="isLogin">
-  <md-toolbar color="primary">
-        <span class="right">
-          <button md-button
-                  *ngFor="let route of ROUTES_NAV" [routerLink]="[route.path]">
-            {{route.name}}
-          </button>
-        </span>
-    <span [hidden]="!authService.loggedIn()">
-          <button md-button (click)="authService.logout()">
-            Logout
-          </button>
-        </span>
+<div>
 
-  <button md-icon-button [mdMenuTriggerFor]="menu">
+
+  <button md-icon-button [mdMenuTriggerFor]="menu" id="three-dots">
     <md-icon>more_vert</md-icon>
   </button>
+
   <md-menu #menu="mdMenu">
+    <button md-menu-item
+            *ngFor="let route of ROUTES_NAV" [routerLink]="[route.path]">
+      {{route.name}}
+    </button>
     <button md-menu-item [routerLink]="'/faculties'">
       Faculties
     </button>
@@ -29,9 +23,6 @@
       Item kinds
     </button>
   </md-menu>
-
-
-  </md-toolbar>
 
 </div>
 

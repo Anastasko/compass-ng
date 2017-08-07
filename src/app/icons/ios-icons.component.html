@@ -1,10 +1,10 @@
 <section [hidden]="showForm">
-  <md-toolbar>
+
     <button md-raised-button color="accent"
             (click)='add()'>
       Add
     </button>
-  </md-toolbar>
+
   <div *ngFor="let icon of icons; let i=index">
     {{'#' + icon.id}}
     <button md-raised-button color="primary"

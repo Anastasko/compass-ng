@@ -39,7 +39,6 @@ export class MapEditComponent implements OnInit {
 
   private showForm: boolean = false;
   private hideMenu: boolean = true;
-  private tooltip: any;
   private mapItemRadius = 8;
   private mapItems: EntityMapItem[];
   private svg: any;
@@ -60,11 +59,11 @@ export class MapEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tooltip = d3.select(".tooltip");
     this.map = new EntityMap(this.map);
     this.map.getMapItems().then((items: EntityMapItem[]) => {
       items.sort(utils.attrComparator('room'));
       this.mapItems = items;
+      items.forEach(i => i['floor'] = this.map.floor)
       this.itemsLoaded.emit(this.mapItems);
     });
     this.loadSvgNode();
