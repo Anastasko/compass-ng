@@ -30,6 +30,12 @@ export class MapItemsListComponent {
 
   active: EntityMapItem;
 
+  search: string;
+
+  filtered() {
+    return this.rooms.filter(r => !this.search || r.room.startsWith(this.search))
+  }
+
   onRoomSelected(item: EntityMapItem, silent: boolean){
     this.active = item;
     if (!silent){

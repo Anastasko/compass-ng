@@ -1,14 +1,12 @@
 <md-input-container
-  style="margin: 3px 10px 0px 10px; position: fixed;">
-  <input mdInput
-         placeholder="Пошук">
+  style="padding-bottom: -7px; margin: 0px 10px -7px 10px; position: relative;">
+  <input mdInput type="number" placeholder="Пошук" [(ngModel)]="search"/>
 
 </md-input-container>
-
-<div style="margin-top: 50px; height: calc(100vh - 70px); overflow-y: scroll">
+<div style="height: calc(100vh - 70px); overflow-y: scroll">
 
   <md-list>
-    <md-list-item *ngFor="let room of rooms"
+    <md-list-item *ngFor="let room of filtered()"
                   class="map-list-item"
                   [class.active]="room.id == active?.id"
                   (click)="onRoomSelected(room, false)">
