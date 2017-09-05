@@ -8,6 +8,7 @@
   <md-list>
     <md-list-item *ngFor="let room of filtered()"
                   class="map-list-item"
+                  [id]="'_' + room.id"
                   [class.active]="room.id == active?.id"
                   (click)="onRoomSelected(room, false)">
       <h1 md-line><b>{{room.room}}</b></h1>

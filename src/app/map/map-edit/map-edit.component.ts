@@ -111,8 +111,9 @@ export class MapEditComponent implements OnInit {
       this.makeUnselected(this.prevPath);
     }
     if (item != null && el == null){
-      alert('Will not be hightlited. Path #' + path + ' is not present in svg.');
+      console.log('Path #' + path + ' is not present in svg.');
       item = null;
+      return
     }
 
     if (item == null || this.prevPath == el){

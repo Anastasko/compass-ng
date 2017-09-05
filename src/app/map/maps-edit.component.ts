@@ -91,6 +91,9 @@ export class MapsEditComponent implements OnInit, OnDestroy {
         this.maps = maps;
       });
     });
+
+    window['test'] = () => this.test(this.mapItems)
+
   }
 
   processPortals(portalsMap: any){
@@ -126,6 +129,13 @@ export class MapsEditComponent implements OnInit, OnDestroy {
     this.mapItems.sort(utils.attrsComparator(['floor', 'room']));
   }
 
+  test(mapItems) {
+    window['automationTest'] = true
+    mapItems.forEach(item => {
+      document.getElementById('_' + item.id).click()
+    })
+  }
+
   onTabClick(tab){
     let ind = tab.index;
     this.selectedTab = ind;
@@ -140,6 +150,9 @@ export class MapsEditComponent implements OnInit, OnDestroy {
       return;
     }
     let ind = this.findIndex(item.owner.id);
+
+    if (window['automationTest']) return
+
     this.selectedTab = ind;
     this.buildRoute(item);
   }
@@ -203,7 +216,7 @@ export class MapsEditComponent implements OnInit, OnDestroy {
 
     console.log(route);
     if (route === undefined){
-      alert("route not found! try debug mode.");
+      console.log("route not found! try debug mode.");
       return;
     }
 
