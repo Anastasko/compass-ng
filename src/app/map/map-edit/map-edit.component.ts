@@ -148,13 +148,14 @@ export class MapEditComponent implements OnInit {
       let room = this.fromSVGpath(id);
       let managed = this.findByRoom(room);
       if (!managed){
-          let newItem = new EntityMapItem({
-            room: this.fromSVGpath(id),
-            owner: {
-              id: this.map.id
-            }
-          });
-          this.update(newItem);
+          console.log('not managed ', room)
+          // let newItem = new EntityMapItem({
+          //   room: this.fromSVGpath(id),
+          //   owner: {
+          //     id: this.map.id
+          //   }
+          // });
+          // this.update(newItem);
       } else {
         this.onRoomSelected(managed, false);
       }

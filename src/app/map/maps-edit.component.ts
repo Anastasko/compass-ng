@@ -93,7 +93,7 @@ export class MapsEditComponent implements OnInit, OnDestroy {
     });
 
     window['test'] = () => this.test(this.mapItems)
-
+    window['test2'] = this.test2
   }
 
   processPortals(portalsMap: any){
@@ -134,6 +134,16 @@ export class MapsEditComponent implements OnInit, OnDestroy {
     mapItems.forEach(item => {
       document.getElementById('_' + item.id).click()
     })
+  }
+
+  test2() {
+    window['automationTest'] = true
+    let children = document.getElementById('rooms').children
+    for(let i=0; i<children.length; ++i) {
+      var event = document.createEvent("SVGEvents");
+      event.initEvent("click",true,true);
+      children[i].dispatchEvent(event);
+    }
   }
 
   onTabClick(tab){
